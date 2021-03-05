@@ -1,0 +1,63 @@
+<div class="am-pagebody">
+    <div class="card pd-20 pd-sm-40">
+    
+        {{ include('_globalMessage.html.twig') }}
+        
+        <h6 class="card-body-title">{{ FormTitle }}</h6>
+        <p class="mg-b-20 mg-sm-b-30">{{ description }}</p>
+        <form method="post">
+        <div class="form-layout">
+            <div class="row mg-b-25">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Full name: <span class="tx-danger">*</span></label>
+                        {{ form_widget(form.FullName, {'attr': {'class': 'form-control','placeholder':'Input your username'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Username: <span class="tx-danger">*</span></label>
+                        {{ form_widget(form.UserName, {'attr': {'class': 'form-control','placeholder':'Input your username'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Password: <span class="tx-danger">*</span></label>
+                        {{ form_widget(form.UserPassword, {'attr': {'class': 'form-control','placeholder':'Input your password'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">User Role: <span class="tx-danger">*</span></label>
+                        {{ form_widget(form.UserRoleId, {'attr': {'class': 'form-control select2'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Status: <span class="tx-danger">*</span></label>
+                        <label class="ckbox">
+                            {{ form_widget(form.Status)}} <span>Aktif</span>
+                        </label>
+                    </div>
+                </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Is Deleted:</label>
+                        <label class="ckbox">
+                            {{ form_widget(form.Deleted)}} <span>Yes</span>
+                        </label>
+                    </div>
+                </div>
+            </div><!-- row -->
+            {{ form_rest(form) }}
+            <div class="form-layout-footer">
+                <button type="submit" class="btn btn-info mg-r-5">{{ button_label }}</button>
+                <a href="{{ path('master_asset_user_index') }}" class="btn btn-secondary">Cancel</a>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+        </form>
+    </div><!-- card -->
+</div><!-- am-pagebody -->
+
+
+      

@@ -1,0 +1,113 @@
+<div class="am-pagebody">
+    <div class="card pd-20 pd-sm-40">
+        {{ include('_globalMessage.html.twig') }}
+        
+        {{ form_errors(form) }}
+        <h6 class="card-body-title">{{ FormTitle }}</h6>
+        <p class="mg-b-20 mg-sm-b-30">{{ description }}</p>
+        
+        <form method="post" data-parsley-validate>
+        <div class="form-layout">
+            <div class="row mg-b-25">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Police Number:<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.PoliceNumber, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Chasis Number:</label>
+                        {{ form_widget(form.ChasisNumber, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Engine Number:</label>
+                        {{ form_widget(form.EngineNumber, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Manufacturer: </label>
+                        {{ form_widget(form.Manfucaturer, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Model:</label>
+                        {{ form_widget(form.Model, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Series: </label>
+                        {{ form_widget(form.Series, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Color: </label>
+                        {{ form_widget(form.Color, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Transmission: </label>
+                        {{ form_widget(form.Transmission, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Fuel Type: </label>
+                        {{ form_widget(form.FuelType, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Year Tax:</label>
+                        {{ form_widget(form.Tahun, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Type:</label>
+                        {{ form_widget(form.Type, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">PIC: </label>
+                        {{ form_widget(form.Pic, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Status: <span class="tx-danger">*</span></label>
+                        {{ form_widget(form.Status, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+            </div><!-- row -->
+
+            <div class="row mg-b-25">
+                <div class="col-lg-12">
+                      <div class="form-group">
+                        <label class="form-control-label">Keterangan:</label>
+                        {{ form_widget(form.Keterangan, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div>
+            </div>
+            {{ form_rest(form) }}
+            <div class="form-layout-footer">
+                <button type="submit" class="btn btn-info mg-r-5">{{ button_label|default('Submit') }}</button>
+                <a href="{{ path('asset_kendaraan_motor_index') }}" class="btn btn-secondary">Cancel</a>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+        </form>
+    </div><!-- card -->
+</div><!-- am-pagebody -->
+
+
+
+

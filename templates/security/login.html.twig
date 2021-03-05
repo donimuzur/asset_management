@@ -1,0 +1,69 @@
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+
+
+    <title>Login</title>
+
+    <!-- vendor css -->
+    <link href="/content/lib/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="/content/lib/Ionicons/css/ionicons.css" rel="stylesheet">
+    <link href="/content/lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+
+    <!-- Amanda CSS -->
+    <link rel="stylesheet" href="/content/css/amanda.css">
+  </head>
+
+  <body>
+
+    <div class="am-signin-wrapper">
+      <div class="am-signin-box">
+        <div class="row no-gutters">
+            <div class="col-lg-5">
+               <img src="/content/images/footer-logo-new.png"  style="max-width:100%"/ >
+            </div>
+            <div class="col-lg-7">
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+
+                    <h5 class="tx-gray-800 mg-b-25">Signin to Your Account</h5>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <div class="form-group">
+                        <label class="form-control-label">Email:</label>
+                        <input type="text" placeholder="Enter your User Id" value="{{ last_username }}" name="UserName" id="inputUserName" class="form-control" required autofocus>
+                    </div><!-- form-group -->
+
+                    <div class="form-group">
+                        <label class="form-control-label">Password:</label>
+                        <input type="password" name="password" placeholder="Enter your password" id="inputPassword" class="form-control" required>
+                    </div><!-- form-group -->
+
+                    <button type="submit" class="btn btn-block">Sign In</button>
+                </form>
+            </div><!-- col-7 -->
+        </div><!-- row -->
+      </div><!-- signin-box -->
+    </div><!-- am-signin-wrapper -->
+
+    <script src="/content/lib/jquery/jquery.js"></script>
+    <script src="/content/lib/popper.js/popper.js"></script>
+    <script src="/content/lib/bootstrap/bootstrap.js"></script>
+    <script src="/content/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+
+    <script src="/content/js/amanda.js"></script>
+  </body>
+</html>

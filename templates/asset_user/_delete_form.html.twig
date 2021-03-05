@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('master_asset_user_delete', {'Id': asset_user.Id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ asset_user.Id) }}">
+    <button class="btn">Delete</button>
+</form>

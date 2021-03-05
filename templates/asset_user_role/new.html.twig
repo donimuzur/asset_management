@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Asset User Role{% endblock %}
+{% block HeaderTitle %}Asset User Role{% endblock %}
+{% set FormTitle =  'New Asset User Role'%}
+{% set description = 'Add New user Role ' %}
+
+{% block body %}
+    {{ include('asset_user_role/_form.html.twig', {'button_label': 'Submit'}) }}
+{% endblock %}

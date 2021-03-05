@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AttachmentAssetKendaraanMotor{% endblock %}
+
+{% block body %}
+    <h1>AttachmentAssetKendaraanMotor</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ attachment_asset_kendaraan_motor.id }}</td>
+            </tr>
+            <tr>
+                <th>Attach_desc</th>
+                <td>{{ attachment_asset_kendaraan_motor.attachDesc }}</td>
+            </tr>
+            <tr>
+                <th>Attach_filename</th>
+                <td>{{ attachment_asset_kendaraan_motor.attachFilename }}</td>
+            </tr>
+            <tr>
+                <th>Attach_size</th>
+                <td>{{ attachment_asset_kendaraan_motor.attachSize }}</td>
+            </tr>
+            <tr>
+                <th>Attach_attachment</th>
+                <td>{{ attachment_asset_kendaraan_motor.attachAttachment }}</td>
+            </tr>
+            <tr>
+                <th>Attached_time</th>
+                <td>{{ attachment_asset_kendaraan_motor.attachedTime ? attachment_asset_kendaraan_motor.attachedTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('attachment_asset_kendaraan_motor_index') }}">back to list</a>
+
+    <a href="{{ path('attachment_asset_kendaraan_motor_edit', {'id': attachment_asset_kendaraan_motor.id}) }}">edit</a>
+
+    {{ include('attachment_asset_kendaraan_motor/_delete_form.html.twig') }}
+{% endblock %}

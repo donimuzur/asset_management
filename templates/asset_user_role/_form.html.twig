@@ -1,0 +1,36 @@
+<div class="am-pagebody">
+    <div class="card pd-20 pd-sm-40">
+    
+        {{ include('_globalMessage.html.twig') }}
+        
+        <h6 class="card-body-title">{{ FormTitle }}</h6>
+        <p class="mg-b-20 mg-sm-b-30">{{ description }}</p>
+        <form method="post">
+        <div class="form-layout">
+            <div class="row mg-b-25">
+                <div class="col-lg-4">
+                  
+                    <div class="form-group">
+                        <label class="form-control-label">Role Name: <span class="tx-danger">*</span></label>
+                        {{ form_widget(form.Name, {'attr': {'class': 'form-control','placeholder':'Input role name'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Display Name: <span class="tx-danger">*</span></label>
+                        {{ form_widget(form.DisplayName, {'attr': {'class': 'form-control','placeholder':'Input display name'}})}}
+                    </div>
+                </div><!-- col-4 -->
+            </div><!-- row -->
+              {{ form_rest(form) }}
+            <div class="form-layout-footer">
+                <button type="submit" class="btn btn-info mg-r-5">{{ button_label }}</button>
+                <a href="{{ path('master_asset_user_role_index') }}" class="btn btn-secondary">Cancel</a>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+        </form>
+    </div><!-- card -->
+</div><!-- am-pagebody -->
+
+
+      

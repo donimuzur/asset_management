@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asset Kendaraan Motor List{% endblock %}
+{% block HeaderTitle %}Asset Kendaraan Motor{% endblock %}
+{% set FormTitle =  'Asset Kendaraan Motor List'%}
+{% set description = 'Add New user ' %}
+
+{% block body %}
+<div class="am-pagebody">
+    <div class="card pd-20 pd-sm-40">
+    
+    {{ include('_globalMessage.html.twig') }}
+        
+    <form method="post"  action='{{ path('asset_kendaraan_motor_delete') }}' id='frmEmpDelAttachments' onsubmit="return confirm('Are you sure you want to delete this item?');" >
+        <div class="row">
+            <div class="col-lg-6">
+                <h6 class="card-body-title">{{ FormTitle}}</h6>
+            </div>
+            <div class="col-lg-6" style="text-align: right;margin-bottom: 10px;">
+                <a class="btn btn-primary mg-x-10" href="{{ path('asset_kendaraan_motor_new') }}">Create new</a>
+                <button class="btn btn-danger" id='btnDeleteAttachment'>Delete</button>
+            </div>
+        </div>
+      
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered mg-b-0">
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="ckbox mg-b-0">
+                                <input type="checkbox" id='checkAll'><span></span>
+                            </label>
+                        </th>
+                        <th>Nomor Polisi</th>
+                        <th>Nomer Mesin</th>
+                        <th>VIN</th>
+                        <th>Tahun Pajak</th>
+                        <th>Type</th>
+                        <th>PIC</th>
+                        <th>Status</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset_kendaraan_motor in asset_kendaraan_motors %}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                        <tr>
+                            <td>
+                                <label class="ckbox mg-b-0">
+                                    <input type='checkbox' class='checkbox' name='chkAssetKendaraanMotor[]' value={{ asset_kendaraan_motor.id}}/><span></span>
+                                </label>    
+                            </td>
+                            <td>{{ asset_kendaraan_motor.PoliceNumber }}</td>
+                            <td>{{ asset_kendaraan_motor.EngineNumber }}</td>
+                            <td>{{ asset_kendaraan_motor.ChasisNumber }}</td>
+                            <td>{{ asset_kendaraan_motor.Tahun }}</td>
+                            <td>{{ asset_kendaraan_motor.Type }}</td>
+                            <td>{{ asset_kendaraan_motor.Pic }}</td>
+                            <td>{{ asset_kendaraan_motor.Status }}</td>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <div class="d-md-flex">
+                                        <a href="{{ path('asset_kendaraan_motor_edit', {'id': asset_kendaraan_motor.id}) }}" class="btn btn-outline-primary btn-block"><i class="fa fa-pencil-square-o mg-r-10"></i> Edit</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+    </div>
+</div>
+   
+    
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+     <script>
+        $("#checkAll").click(function(){
+            if($("#checkAll:checked").length > 0) {
+                $(".checkbox").prop('checked', true);
+            } else {
+                $(".checkbox").prop('checked', false);
+            }
+        });
+
+        $(".checkbox").click(function() {
+            $("#checkAll").prop('checked', false);
+            if(($(".checkbox").length) == $(".checkbox:checked").length) {
+                $("#checkAll").prop('checked', true);
+            }
+            
+        });
+    </script>
+{% endblock %}
+
+
+
+

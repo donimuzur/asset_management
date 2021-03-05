@@ -1,3 +1,23 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+index:
+    path: /
+    controller: App\Controller\DefaultController::index
+
+login:
+    path:       /login
+    controller: App\Controller\SecurityController::login
+    
+AssetUser:
+    path:       /Master/AssetUser
+    controller: App\Controller\AssetUserController::index   
+
+AssetUserRole:
+    path:       /Master/AssetUserRole
+    controller: App\Controller\AssetUserRoleController::index   
+
+AssetKendaraanMotor:
+    path:       /Asset/Kendaraan/Motor
+    controller: App\Controller\AssetKendaraanMotor::index   
