@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\AssetKendaraanMotor;
-use App\Entity\AttachmentAssetKendaraanMotor;
-use App\Form\AssetKendaraanMotorType;
-use App\Form\AttachmentAssetKendaraanMotorType;
-use App\Repository\AssetKendaraanMotorRepository;
+use App\Entity\AssetKendaraanMobil;
+use App\Entity\AttachmentAssetKendaraanMobil;
+use App\Form\AssetKendaraanMobilType;
+use App\Form\AttachmentAssetKendaraanMobilType;
+use App\Repository\AssetKendaraanMobilRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,76 +18,76 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
- * @Route("/Asset/Kendaraan/Motor")
+ * @Route("/Asset/Kendaraan/Mobil")
  */
-class AssetKendaraanMotorController extends AbstractController
+class AssetKendaraanMobilController extends AbstractController
 {
     /**
-     * @Route("/", name="asset_kendaraan_motor_index", methods={"GET"})
+     * @Route("/", name="asset_kendaraan_mobil_index", methods={"GET"})
      */
-    public function index(AssetKendaraanMotorRepository $assetKendaraanMotorRepository): Response
+    public function index(AssetKendaraanMobilRepository $assetKendaraanMobilRepository): Response
     {
-        return $this->render('asset_kendaraan_motor/index.html.twig', [
-            'asset_kendaraan_motors' => $assetKendaraanMotorRepository->findAll(),
+        return $this->render('asset_kendaraan_mobil/index.html.twig', [
+            'asset_kendaraan_mobils' => $assetKendaraanMobilRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/New", name="asset_kendaraan_motor_new", methods={"GET","POST"})
+     * @Route("/New", name="asset_kendaraan_mobil_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
-        $assetKendaraanMotor = new AssetKendaraanMotor();
-        $form = $this->createForm(AssetKendaraanMotorType::class, $assetKendaraanMotor);
+        $assetKendaraanMobil = new AssetKendaraanMobil();
+        $form = $this->createForm(AssetKendaraanMobilType::class, $assetKendaraanMobil);
         $form->handleRequest($request);
         $getId = null;
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($assetKendaraanMotor);
+            $entityManager->persist($assetKendaraanMobil);
             $entityManager->flush();
-            $getId = $assetKendaraanMotor->getId();
+            $getId = $assetKendaraanMobil->getId();
 
             $this->addFlash(
                 'success',
                 'Success, data were saved!'
             );
 
-            return $this->redirectToRoute('asset_kendaraan_motor_edit',['id'=>$getId]);
+            return $this->redirectToRoute('asset_kendaraan_mobil_edit',['id'=>$getId]);
         }
 
-        return $this->render('asset_kendaraan_motor/new.html.twig', [
-            'asset_kendaraan_motor' => $assetKendaraanMotor,
+        return $this->render('asset_kendaraan_mobil/new.html.twig', [
+            'asset_kendaraan_mobil' => $assetKendaraanMobil,
             'form' => $form->createView(),
         ]);
     }
     
     /**
-     * @Route("/UpdateAttachment", name="asset_kendaraan_motor_update_attachment", methods={"POST"})
+     * @Route("/UpdateAttachment", name="asset_kendaraan_mobil_update_attachment", methods={"POST"})
      */
     public function update(Request $request, SluggerInterface $slugger): Response
     {
         $isNew = false;
         $AttachmentId = $request->request->get('AttachmentId');
         $Description = $request->request->get('description');
-        $AssetKendaraanMotorId = $request->request->get('AssetKendaraanMotorId');
+        $AssetKendaraanMobilId = $request->request->get('AssetKendaraanMobilId');
         $submittedToken = $request->request->get('_token');
         $uFile = $request->files->get('ufile');
 
-        if ($request->isMethod('POST') && $this->isCsrfTokenValid('AttachmentAssetKendaraanMotor', $submittedToken)) {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('AttachmentAssetKendaraanMobil', $submittedToken)) {
             $entityManager = $this->getDoctrine()->getManager();
             
-            $AssetKendaraanMotor =  $this->getDoctrine()
-                ->getRepository(AssetKendaraanMotor::class)
-                ->find($AssetKendaraanMotorId);
+            $AssetKendaraanMobil =  $this->getDoctrine()
+                ->getRepository(AssetKendaraanMobil::class)
+                ->find($AssetKendaraanMobilId);
 
-            $AttachmentAssetKendaraanMotor = $this->getDoctrine()
-                ->getRepository(AttachmentAssetKendaraanMotor::class)
+            $AttachmentAssetKendaraanMobil = $this->getDoctrine()
+                ->getRepository(AttachmentAssetKendaraanMobil::class)
                 ->find($AttachmentId);
 
-            if(!$AttachmentAssetKendaraanMotor)
+            if(!$AttachmentAssetKendaraanMobil)
             {
                 $isNew = true;
-                $AttachmentAssetKendaraanMotor = new AttachmentAssetKendaraanMotor();
+                $AttachmentAssetKendaraanMobil = new AttachmentAssetKendaraanMobil();
             }
 
             if ($uFile) {
@@ -98,7 +98,7 @@ class AssetKendaraanMotorController extends AbstractController
                 $content = file_get_contents($uFile);
                 $filType = $uFile->gettype();
 
-                $AttachmentAssetKendaraanMotor->setAttachAttachment($content)
+                $AttachmentAssetKendaraanMobil->setAttachAttachment($content)
                                               ->setAttachSize($uFile->getSize())
                                               ->setAttachedTime(new \DateTime('now'))
                                               ->setAttachFilename($newFilename)
@@ -106,11 +106,11 @@ class AssetKendaraanMotorController extends AbstractController
                                               ->setAttachType($filType);
             }
 
-            $AttachmentAssetKendaraanMotor->setAssetKendaraanMotor($AssetKendaraanMotor)
+            $AttachmentAssetKendaraanMobil->setAssetKendaraanMobil($AssetKendaraanMobil)
                                             ->setAttachDesc($Description);
             if($isNew)
             {
-                $entityManager->persist($AttachmentAssetKendaraanMotor);
+                $entityManager->persist($AttachmentAssetKendaraanMobil);
             }
             
             $entityManager->flush();
@@ -121,16 +121,16 @@ class AssetKendaraanMotorController extends AbstractController
             );
         }
        
-        return $this->redirectToRoute('asset_kendaraan_motor_edit',['id'=>$AssetKendaraanMotorId]);
+        return $this->redirectToRoute('asset_kendaraan_mobil_edit',['id'=>$AssetKendaraanMobilId]);
     }
     
       /**
-     * @Route("/DeleteAttachment", name="asset_kendaraan_motor_attacment_delete", methods={"DELETE"})
+     * @Route("/DeleteAttachment", name="asset_kendaraan_mobil_attacment_delete", methods={"DELETE"})
      */
     public function deleteAttachment(Request $request): Response
     {
         $attachmentsToDelete = $request->request->get('chkAssetKendaraan');
-        $AssetKendaraanMotorId = $request->request->get('AssetKendaraanMotorId');
+        $AssetKendaraanMobilId = $request->request->get('AssetKendaraanMobilId');
 
         if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) 
         {
@@ -139,7 +139,7 @@ class AssetKendaraanMotorController extends AbstractController
             foreach($attachmentsToDelete as $attachmentsToDelete)
             {
                     $AttachmentObjectToDelete  =  $this->getDoctrine()
-                    ->getRepository(AttachmentAssetKendaraanMotor::class)
+                    ->getRepository(AttachmentAssetKendaraanMobil::class)
                     ->find($attachmentsToDelete); 
 
                     $entityManager->remove($AttachmentObjectToDelete);
@@ -154,27 +154,27 @@ class AssetKendaraanMotorController extends AbstractController
             
         }
 
-        return $this->redirectToRoute('asset_kendaraan_motor_edit',['id'=>$AssetKendaraanMotorId]);
+        return $this->redirectToRoute('asset_kendaraan_mobil_edit',['id'=>$AssetKendaraanMobilId]);
     }
 
 
     /**
-     * @Route("/View/{id}", name="asset_kendaraan_motor_show", methods={"GET"})
+     * @Route("/View/{id}", name="asset_kendaraan_mobil_show", methods={"GET"})
      */
-    public function show(AssetKendaraanMotor $assetKendaraanMotor): Response
+    public function show(AssetKendaraanMobil $assetKendaraanMobil): Response
     {
-        return $this->render('asset_kendaraan_motor/show.html.twig', [
-            'asset_kendaraan_motor' => $assetKendaraanMotor,
+        return $this->render('asset_kendaraan_mobil/show.html.twig', [
+            'asset_kendaraan_mobil' => $assetKendaraanMobil,
         ]);
     }
 
   
     /**
-     * @Route("/Edit/{id}", name="asset_kendaraan_motor_edit", methods={"GET","POST"})
+     * @Route("/Edit/{id}", name="asset_kendaraan_mobil_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, AssetKendaraanMotor $assetKendaraanMotor): Response
+    public function edit(Request $request, AssetKendaraanMobil $assetKendaraanMobil): Response
     {
-        $form = $this->createForm(AssetKendaraanMotorType::class, $assetKendaraanMotor);
+        $form = $this->createForm(AssetKendaraanMobilType::class, $assetKendaraanMobil);
         $form->handleRequest($request);
        
         
@@ -186,31 +186,31 @@ class AssetKendaraanMotorController extends AbstractController
                 'Your changes were saved!'
             );
 
-            return $this->redirectToRoute('asset_kendaraan_motor_edit',['id'=>$assetKendaraanMotor->getId()]);
+            return $this->redirectToRoute('asset_kendaraan_mobil_edit',['id'=>$assetKendaraanMobil->getId()]);
         }
         
-        return $this->render('asset_kendaraan_motor/edit.html.twig', [
-            'asset_kendaraan_motor' => $assetKendaraanMotor,
+        return $this->render('asset_kendaraan_mobil/edit.html.twig', [
+            'asset_kendaraan_mobil' => $assetKendaraanMobil,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/Delete", name="asset_kendaraan_motor_delete", methods={"DELETE"})
+     * @Route("/Delete", name="asset_kendaraan_mobil_delete", methods={"DELETE"})
      */
     public function delete(Request $request): Response
     {
-        $assetKendaraanMotorToDelete = $request->request->get('chkAssetKendaraanMotor');
+        $assetKendaraanMobilToDelete = $request->request->get('chkAssetKendaraanMobil');
 
         if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) 
         {
             $entityManager = $this->getDoctrine()->getManager();
             
-            foreach($assetKendaraanMotorToDelete as $assetKendaraanMotorToDelete)
+            foreach($assetKendaraanMobilToDelete as $assetKendaraanMobilToDelete)
             {
                     $AttachmentObjectToDelete  =  $this->getDoctrine()
-                    ->getRepository(AssetKendaraanMotor::class)
-                    ->find($assetKendaraanMotorToDelete); 
+                    ->getRepository(AssetKendaraanMobil::class)
+                    ->find($assetKendaraanMobilToDelete); 
 
                     $entityManager->remove($AttachmentObjectToDelete);
             }
@@ -224,18 +224,18 @@ class AssetKendaraanMotorController extends AbstractController
             
         }
 
-        return $this->redirectToRoute('asset_kendaraan_motor_index');
+        return $this->redirectToRoute('asset_kendaraan_mobil_index');
     }
 
       /**
-     * @Route("/DownloadAttachment/{AssetKendaraanMotorId}/{id}", name="asset_kendaraan_motor_download_attachment",methods={"GET","POST"})
+     * @Route("/DownloadAttachment/{AssetKendaraanMobilId}/{id}", name="asset_kendaraan_mobil_download_attachment",methods={"GET","POST"})
      */
-    public function downloadAttachment(Request $request, int $id, int $AssetKendaraanMotorId): Response
+    public function downloadAttachment(Request $request, int $id, int $AssetKendaraanMobilId): Response
     {
-        // $AssetKendaraanMotorId = $request->request->get('AssetKendaraanMotorId');
+        // $AssetKendaraanMobilId = $request->request->get('AssetKendaraanMobilId');
         // $attachmentId = $request->request->get('id');
         $AttachmentFile  =  $this->getDoctrine()
-            ->getRepository(AttachmentAssetKendaraanMotor::class)
+            ->getRepository(AttachmentAssetKendaraanMobil::class)
             ->find($id); 
         
         if (!empty($AttachmentFile)) {
@@ -257,7 +257,7 @@ class AssetKendaraanMotorController extends AbstractController
 
             return $response;
         } else {
-            return $this->redirectToRoute('asset_kendaraan_motor_edit',['id'=>$AssetKendaraanMotorId]);
+            return $this->redirectToRoute('asset_kendaraan_mobil_edit',['id'=>$AssetKendaraanMobilId]);
         }
     }
 }

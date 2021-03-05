@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Asset kendaraan Motor{% endblock %}
+{% block HeaderTitle %}Asset Kendaraan Motor{% endblock %}
+{% set FormTitle =  'Edit Asset Kendaraan Motor'%}
+{% set description = 'Edit Asset Kendaraan Motor ' %}
+
+{% block body %}
+  {{ include('asset_kendaraan_mobil/_form.html.twig', {'button_label': 'Update'}) }}
+  {{ include('attachment_asset_kendaraan_mobil/_listComponent.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+          // Add a emergency contact
+        $('#btnAddAttachment').click(function() {
+            console.log('tekan');
+          
+            $('#ufile').removeAttr("disabled");
+            $('#attachmentActions').hide();
+            $('#addPaneAttachments').show();
+            
+            $("table#tblAttachments label.checkboxAtch").hide();
+            $("table#tblAttachments row.editLink").hide();
+
+            
+            window.location.hash = '#addPaneAttachments';
+            
+        });
+
+        
+        $('#btnCancelAttachment').click(function() {
+            $('#addPaneAttachments').hide();
+            $('#attachmentActions').show();
+            $('#ufile').val('');
+            $('#attachmentList').show();
+            $("table#tblAttachments label.checkboxAtch").show();
+            $("table#tblAttachments row.editLink").show();            
+        });
+        
+
+        $("#checkAll").click(function(){
+            if($("#checkAll:checked").length > 0) {
+                $(".checkbox").prop('checked', true);
+            } else {
+                $(".checkbox").prop('checked', false);
+            }
+        });
+
+        $(".checkbox").click(function() {
+            $("#checkAll").prop('checked', false);
+            if(($(".checkbox").length) == $(".checkbox:checked").length) {
+                $("#checkAll").prop('checked', true);
+            }
+            
+        });
+    </script>
+{% endblock %}

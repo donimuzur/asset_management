@@ -76,9 +76,15 @@ class AssetUser implements UserInterface
      */
     private $attachmentAssetKendaraanMotors;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AttachmentAssetKendaraanMobil::class, mappedBy="attached_by")
+     */
+    private $attachmentAssetKendaraanMobils;
+
     public function __construct()
     {
         $this->attachmentAssetKendaraanMotors = new ArrayCollection();
+        $this->attachmentAssetKendaraanMobils = new ArrayCollection();
     }
 	
     public function getId(): ?int
@@ -260,6 +266,36 @@ class AssetUser implements UserInterface
             // set the owning side to null (unless already changed)
             if ($attachmentAssetKendaraanMotor->getAttachedBy() === $this) {
                 $attachmentAssetKendaraanMotor->setAttachedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AttachmentAssetKendaraanMobil[]
+     */
+    public function getAttachmentAssetKendaraanMobils(): Collection
+    {
+        return $this->attachmentAssetKendaraanMobils;
+    }
+
+    public function addAttachmentAssetKendaraanMobil(AttachmentAssetKendaraanMobil $attachmentAssetKendaraanMobil): self
+    {
+        if (!$this->attachmentAssetKendaraanMobils->contains($attachmentAssetKendaraanMobil)) {
+            $this->attachmentAssetKendaraanMobils[] = $attachmentAssetKendaraanMobil;
+            $attachmentAssetKendaraanMobil->setAttachedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachmentAssetKendaraanMobil(AttachmentAssetKendaraanMobil $attachmentAssetKendaraanMobil): self
+    {
+        if ($this->attachmentAssetKendaraanMobils->removeElement($attachmentAssetKendaraanMobil)) {
+            // set the owning side to null (unless already changed)
+            if ($attachmentAssetKendaraanMobil->getAttachedBy() === $this) {
+                $attachmentAssetKendaraanMobil->setAttachedBy(null);
             }
         }
 

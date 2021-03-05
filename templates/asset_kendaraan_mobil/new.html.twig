@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Asset kendaraan Mobil{% endblock %}
+{% block HeaderTitle %}Asset Kendaraan Mobil{% endblock %}
+{% set FormTitle =  'New Asset Kendaraan Mobil'%}
+{% set description = 'Add New Asset Kendaraan Mobil ' %}
+
+{% block body %}
+  {{ include('asset_kendaraan_mobil/_form.html.twig', {'button_label': 'Submit'}) }}
+{% endblock %}
+

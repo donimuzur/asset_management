@@ -2,22 +2,20 @@
 
 namespace App\Form;
 
-use App\Entity\AssetKendaraanMotor;
+use App\Entity\AssetKendaraanMobil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AssetKendaraanMotorType extends AbstractType
+class AssetKendaraanMobilType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('Tahun')
-            ->add('PoliceNumber')
             ->add('Type')
             ->add('Pic')
             ->add('Status',ChoiceType::class,[
@@ -28,9 +26,10 @@ class AssetKendaraanMotorType extends AbstractType
                 ],
             ])
             ->add('Keterangan', TextareaType::class, ['required'=>false])
+            ->add('PoliceNumber')
             ->add('EngineNumber')
             ->add('ChasisNumber')
-            ->add('Manfucaturer')
+            ->add('Manufacturer')
             ->add('Model')
             ->add('Series')
             ->add('Color')
@@ -47,14 +46,14 @@ class AssetKendaraanMotorType extends AbstractType
                     'Hybrid' => 'Hybrid',
                 ],
             ])
-            ->add('Airbag', HiddenType::class, ['required'=>false])
+            ->add('Airbag', CheckboxType::class, ['required'=>false])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => AssetKendaraanMotor::class,
+            'data_class' => AssetKendaraanMobil::class,
         ]);
     }
 }
