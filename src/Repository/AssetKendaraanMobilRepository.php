@@ -19,6 +19,15 @@ class AssetKendaraanMobilRepository extends ServiceEntityRepository
         parent::__construct($registry, AssetKendaraanMobil::class);
     }
 
+    public function findMobilByManufacturer()
+    {
+        return $this->createQueryBuilder("a")
+              ->select("a.Manufacturer, count(a.Manufacturer) as Total")
+              ->groupBy('a.Manufacturer')
+              ->getQuery()
+              ->getResult();
+    }
+
     // /**
     //  * @return AssetKendaraanMobil[] Returns an array of AssetKendaraanMobil objects
     //  */

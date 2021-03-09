@@ -7,11 +7,12 @@
 
 {% block body %}
   {{ include('asset_kendaraan_motor/_form.html.twig', {'button_label': 'Update'}) }}
-  {{ include('attachment_asset_kendaraan_motor/_listComponent.html.twig') }}
+  {{ include('asset_kendaraan_motor/_listComponent.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    
     <script>
           // Add a emergency contact
         $('#btnAddAttachment').click(function() {

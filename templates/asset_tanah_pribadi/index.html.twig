@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asset Tanah Pribadi List{% endblock %}
+{% block HeaderTitle %}Asset Tanah Pribadi{% endblock %}
+{% set FormTitle =  'Asset Tanah Pribadi List'%}
+{% set description = 'Add New user ' %}
+
+{% block body %}
+<div class="am-pagebody">
+    <div class="card pd-20 pd-sm-40">
+    
+    {{ include('_globalMessage.html.twig') }}
+        
+    <form method="post"  action='{{ path('asset_tanah_pribadi_delete') }}' onsubmit="return confirm('Are you sure you want to delete this item?');" >
+        <div class="row">
+            <div class="col-lg-6">
+                <h6 class="card-body-title">{{ FormTitle}}</h6>
+            </div>
+            <div class="col-lg-6" style="text-align: right;margin-bottom: 10px;">
+                <a class="btn btn-primary mg-x-10" href="{{ path('asset_tanah_pribadi_new') }}">Create new</a>
+                <button class="btn btn-danger" id='btnDeleteAttachment'>Delete</button>
+            </div>
+        </div>
+      
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered mg-b-0">
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="ckbox mg-b-0">
+                                <input type="checkbox" id='checkAll'><span></span>
+                            </label>
+                        </th>
+                        <th>Luasan</th>
+                        <th>No SHM</th>
+                        <th>Nama Pemilik</th>
+                        <th>Status</th>
+                        <th>Status Pembayaran</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset_tanah_pribadi in asset_tanah_pribadis %}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                        <tr>
+                            <td>
+                                <label class="ckbox mg-b-0">
+                                    <input type='checkbox' class='checkbox' name='chkAssetTanah[]' value={{ asset_tanah_pribadi.id}}/><span></span>
+                                </label>    
+                            </td>
+                            <td>{{ asset_tanah_pribadi.luasan }}</td>
+                            <td>{{ asset_tanah_pribadi.noShm }}</td>
+                            <td>{{ asset_tanah_pribadi.namaPemilik }}</td>
+                            <td>{{ asset_tanah_pribadi.Status }}</td>
+                            <td>{{ asset_tanah_pribadi.statusPembayaran }}</td>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <div class="d-md-flex">
+                                        <a href="{{ path('asset_tanah_pribadi_edit', {'id': asset_tanah_pribadi.id}) }}" class="btn btn-outline-primary btn-block"><i class="fa fa-pencil-square-o mg-r-10"></i> Edit</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">no records found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+    </div>
+</div>
+   
+    
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+     <script>
+        $("#checkAll").click(function(){
+            if($("#checkAll:checked").length > 0) {
+                $(".checkbox").prop('checked', true);
+            } else {
+                $(".checkbox").prop('checked', false);
+            }
+        });
+
+        $(".checkbox").click(function() {
+            $("#checkAll").prop('checked', false);
+            if(($(".checkbox").length) == $(".checkbox:checked").length) {
+                $("#checkAll").prop('checked', true);
+            }
+            
+        });
+    </script>
+{% endblock %}

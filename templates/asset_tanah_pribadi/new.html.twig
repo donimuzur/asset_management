@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Asset Tanah Pribadi{% endblock %}
+{% block HeaderTitle %}Asset Tanah Pribadi{% endblock %}
+{% set FormTitle =  'Asset Tanah Pribadi'%}
+{% set description = 'Tambah data Asset Tanah Pribadi ' %}
+
+{% block body %}
+  {{ include('asset_tanah_pribadi/_form.html.twig', {'button_label': 'Submit'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/src/Scripts/asset_tanah_pribadi/_form.js"></script>
+    <script>
+        InitProvinsi();
+        InitMadya();
+        InitKecamatan();
+        InitDesa();
+    </script>
+{% endblock %}

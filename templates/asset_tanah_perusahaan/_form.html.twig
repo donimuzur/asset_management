@@ -1,0 +1,87 @@
+<div class="am-pagebody">
+    <div class="card pd-20 pd-sm-40">
+        {{ include('_globalMessage.html.twig') }}
+        
+        {{ form_errors(form) }}
+        <h6 class="card-body-title">{{ FormTitle }}</h6>
+        <p class="mg-b-20 mg-sm-b-30">{{ description }}</p>
+        
+        <form method="post" data-parsley-validate>
+        <div class="form-layout">
+            <div class="row mg-b-25">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">No SHM:<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.no_shm, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Luas Area:<span class="tx-danger">*</span></label>
+                        <div class="input-group">
+                            {{ form_widget(form.luasan, {'attr': {'class': 'form-control','placeholder':'Surface Area'}})}}
+                            <span class="input-group-addon tx-size-sm lh-2">m<sup>2</sup></span>
+                        </div>
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Nama Pemilik:</label>
+                        {{ form_widget(form.nama_pemilik, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Status Pembayaran (NJOP/PBB):<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.status_pembayaran, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Status:<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.Status, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div><!-- col-4 -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="form-control-label">Lokasi:<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.provinsi, {'attr': {'class': 'form-control'}})}}
+                        <input id="data-holder-provinsi" type="hidden" />
+                        
+                        <label class="form-control-label">Kabupaten/Kota:<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.kabupaten_kota, {'attr': {'class': 'form-control'}})}}
+                        <input id="data-holder-kabupaten_kota" type="hidden" />
+                        
+                        <label class="form-control-label">Kecamatan:<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.kecamatan, {'attr': {'class': 'form-control'}})}}
+                        <input id="data-holder-kecamatan" type="hidden"/>
+                        
+                        <label class="form-control-label">Desa:<span class="tx-danger">*</span></label>
+                        {{ form_widget(form.desa, {'attr': {'class': 'form-control'}})}}
+                        
+                    </div>
+                </div><!-- col-4 -->
+            </div><!-- row -->
+
+            <div class="row mg-b-25">
+                <div class="col-lg-12">
+                      <div class="form-group">
+                        <label class="form-control-label">Keterangan:</label>
+                        {{ form_widget(form.keterangan, {'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div>
+            </div>
+            {{ form_rest(form) }}
+            <div class="form-layout-footer">
+                <button type="submit" class="btn btn-info mg-r-5">{{ button_label|default('Submit') }}</button>
+                <a href="{{ path('asset_tanah_perusahaan_index') }}" class="btn btn-secondary">Cancel</a>
+            </div><!-- form-layout-footer -->
+        </div><!-- form-layout -->
+        </form>
+    </div><!-- card -->
+</div><!-- am-pagebody -->
+
+
+
+

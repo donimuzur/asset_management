@@ -62,7 +62,6 @@
                         <th>Description</th>
                         <th>Attach By</th>
                         <th>Attach Date</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,11 +80,6 @@
                             <td>{{ attachment_asset_kendaraan_motor.getAttachDesc}}</td>
                             <td>{{ attachment_asset_kendaraan_motor.getAttachedBy.getFullName|default('') }}</td>
                             <td>{{ attachment_asset_kendaraan_motor.attach_time|default( "now"|date("m/d/Y"))}}</td>
-                            <td>
-                                <div class="row editLink" style="text-align:right">
-                                    <a href="#" class="btn btn-outline-primary btn-block"><i class="fa fa-pencil-square-o mg-r-10"></i> Edit</a>
-                                </div>
-                            </td>
                         </tr>
                     {% else %}
                         <tr>

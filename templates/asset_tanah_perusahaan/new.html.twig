@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Asset Tanah Perusahaan{% endblock %}
+{% block HeaderTitle %}Asset Tanah Perusahaan{% endblock %}
+{% set FormTitle =  'Asset Tanah Perusahaan'%}
+{% set description = 'Tambah data Asset Tanah Perusahaan ' %}
+
+{% block body %}
+  {{ include('asset_tanah_perusahaan/_form.html.twig', {'button_label': 'Submit'}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/src/Scripts/asset_tanah_perusahaan/_form.js"></script>
+    <script>
+        InitProvinsi();
+        InitMadya();
+        InitKecamatan();
+        InitDesa();
+    </script>
+{% endblock %}

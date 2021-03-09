@@ -116,7 +116,7 @@ class AssetKendaraanMobil
 
     public function setTahun(?string $Tahun): self
     {
-        $this->Tahun = $Tahun;
+        $this->Tahun = strtoupper($Tahun);
 
         return $this;
     }
@@ -128,7 +128,7 @@ class AssetKendaraanMobil
 
     public function setType(?string $Type): self
     {
-        $this->Type = $Type;
+        $this->Type = strtoupper($Type);
 
         return $this;
     }
@@ -140,7 +140,7 @@ class AssetKendaraanMobil
 
     public function setPic(?string $Pic): self
     {
-        $this->Pic = $Pic;
+        $this->Pic = strtoupper($Pic);
 
         return $this;
     }
@@ -176,8 +176,9 @@ class AssetKendaraanMobil
 
     public function setPoliceNumber(string $PoliceNumber): self
     {
+        $PoliceNumber = preg_replace('/\s*/', '', $PoliceNumber);
+        $PoliceNumber = strtoupper($PoliceNumber);
         $this->PoliceNumber = $PoliceNumber;
-
         return $this;
     }
 
@@ -188,7 +189,7 @@ class AssetKendaraanMobil
 
     public function setEngineNumber(?string $EngineNumber): self
     {
-        $this->EngineNumber = $EngineNumber;
+        $this->EngineNumber = strtoupper($EngineNumber);
 
         return $this;
     }
@@ -200,7 +201,7 @@ class AssetKendaraanMobil
 
     public function setChasisNumber(?string $ChasisNumber): self
     {
-        $this->ChasisNumber = $ChasisNumber;
+        $this->ChasisNumber =  strtoupper($ChasisNumber);
 
         return $this;
     }
@@ -212,7 +213,7 @@ class AssetKendaraanMobil
 
     public function setManufacturer(?string $Manufacturer): self
     {
-        $this->Manufacturer = $Manufacturer;
+        $this->Manufacturer = strtoupper($Manufacturer);
 
         return $this;
     }
@@ -224,7 +225,7 @@ class AssetKendaraanMobil
 
     public function setModel(?string $Model): self
     {
-        $this->Model = $Model;
+        $this->Model = strtoupper($Model);
 
         return $this;
     }
@@ -236,7 +237,7 @@ class AssetKendaraanMobil
 
     public function setSeries(?string $Series): self
     {
-        $this->Series = $Series;
+        $this->Series = strtoupper($Series);
 
         return $this;
     }
@@ -248,7 +249,7 @@ class AssetKendaraanMobil
 
     public function setColor(?string $Color): self
     {
-        $this->Color = $Color;
+        $this->Color = strtoupper($Color);
 
         return $this;
     }

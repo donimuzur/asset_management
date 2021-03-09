@@ -19,6 +19,15 @@ class AssetKendaraanMotorRepository extends ServiceEntityRepository
         parent::__construct($registry, AssetKendaraanMotor::class);
     }
 
+    public function findMotorByManufacturer()
+    {
+        return $this->createQueryBuilder("a")
+              ->select("a.Manfucaturer as Manufacturer, count(a.Manfucaturer) as Total")
+              ->groupBy('a.Manfucaturer')
+              ->getQuery()
+              ->getResult();
+    }
+
     // /**
     //  * @return AssetKendaraanMotor[] Returns an array of AssetKendaraanMotor objects
     //  */

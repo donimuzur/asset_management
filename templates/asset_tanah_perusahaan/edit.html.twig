@@ -1,18 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Asset kendaraan Motor{% endblock %}
-{% block HeaderTitle %}Asset Kendaraan Motor{% endblock %}
-{% set FormTitle =  'Edit Asset Kendaraan Motor'%}
-{% set description = 'Edit Asset Kendaraan Motor ' %}
+{% block title %}Edit Asset Tanah Perusahaan{% endblock %}
+{% block HeaderTitle %}Asset Tanah Perusahaan{% endblock %}
+{% set FormTitle =  'Edit Asset Tanah Perusahaan'%}
+{% set description = 'Edit Asset Tanah Perusahaan ' %}
 
 {% block body %}
-  {{ include('asset_kendaraan_mobil/_form.html.twig', {'button_label': 'Update'}) }}
-  {{ include('asset_kendaraan_mobil/_listComponent.html.twig') }}
+  {{ include('asset_tanah_perusahaan/_form.html.twig', {'button_label': 'Update'}) }}
+  {{ include('asset_tanah_perusahaan/_listComponent.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="/src/Scripts/asset_tanah_perusahaan/_form.js"></script>
     <script>
+        InitProvinsi();
+        InitMadya();
+        InitKecamatan();
+        InitDesa();
+    </script>
+    <script>
+        
           // Add a emergency contact
         $('#btnAddAttachment').click(function() {
             console.log('tekan');
@@ -26,7 +34,6 @@
 
             
             window.location.hash = '#addPaneAttachments';
-            
         });
 
         

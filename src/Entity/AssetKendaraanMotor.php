@@ -129,7 +129,7 @@ class AssetKendaraanMotor
 
     public function setType(string $Type): self
     {
-        $this->Type = $Type;
+        $this->Type = strtoupper($Type);
 
         return $this;
     }
@@ -141,7 +141,7 @@ class AssetKendaraanMotor
 
     public function setPic(?string $Pic): self
     {
-        $this->Pic = $Pic;
+        $this->Pic = strtoupper($Pic);
 
         return $this;
     }
@@ -192,7 +192,6 @@ class AssetKendaraanMotor
 
     public function setEngineNumber(?string $EngineNumber): self
     {
-        $EngineNumber = preg_replace('/\s*/', '', $EngineNumber);
         $EngineNumber = strtoupper($EngineNumber);
         $this->EngineNumber = $EngineNumber;
 
@@ -206,7 +205,6 @@ class AssetKendaraanMotor
 
     public function setChasisNumber(?string $ChasisNumber): self
     {
-        $ChasisNumber = preg_replace('/\s*/', '', $ChasisNumber);
         $ChasisNumber = strtoupper($ChasisNumber);
         $this->ChasisNumber = $ChasisNumber;
 
@@ -220,7 +218,7 @@ class AssetKendaraanMotor
 
     public function setManfucaturer(?string $Manfucaturer): self
     {
-        $this->Manfucaturer = $Manfucaturer;
+        $this->Manfucaturer = strtoupper($Manfucaturer);
 
         return $this;
     }
@@ -232,7 +230,7 @@ class AssetKendaraanMotor
 
     public function setModel(?string $Model): self
     {
-        $this->Model = $Model;
+        $this->Model = strtoupper($Model);
 
         return $this;
     }
@@ -244,7 +242,7 @@ class AssetKendaraanMotor
 
     public function setSeries(?string $Series): self
     {
-        $this->Series = $Series;
+        $this->Series = strtoupper($Series);
 
         return $this;
     }
@@ -256,7 +254,7 @@ class AssetKendaraanMotor
 
     public function setColor(?string $Color): self
     {
-        $this->Color = $Color;
+        $this->Color = strtoupper($Color);
 
         return $this;
     }
@@ -268,7 +266,7 @@ class AssetKendaraanMotor
 
     public function setTransmission(?string $Transmission): self
     {
-        $this->Transmission = $Transmission;
+        $this->Transmission = strtoupper($Transmission);
 
         return $this;
     }
