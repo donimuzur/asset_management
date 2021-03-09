@@ -1,5 +1,5 @@
 <?php
-namespace App\Helper\Utility;
+namespace App\Utility;
 
 class Base64Url {
 

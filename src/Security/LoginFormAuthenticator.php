@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\AssetUser;
+use App\Utility\PasswordHash;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,6 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use app\Helper\Utility\PasswordHash;
 
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {

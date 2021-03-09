@@ -1,5 +1,5 @@
 <?php
-namespace App\Helper\Utility;
+namespace App\Utility;
 
 interface Exportable {
     public function getExportHeaders();

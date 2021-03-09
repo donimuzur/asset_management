@@ -1,5 +1,5 @@
 <?php
-namespace App\Helper\Utility;
+namespace App\Utility;
 
 /**
  *@author Muhammad Zulfi Rusdani donimuzur@gmail.com
