@@ -23,7 +23,7 @@
         </div>
       
         <div class="table-responsive">
-            <table class="table table-hover table-bordered mg-b-0">
+            <table id="datatable" class="table display responsive nowrap">
                 <thead>
                     <tr>
                         <th>
@@ -72,14 +72,20 @@
         </div>
     </form>
     </div>
-</div>
-   
-    
+</div>   
 {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
 
      <script>
+        $('#datatable').DataTable({
+          responsive: true,
+          bLengthChange: false,
+          searching: false,
+        });
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
         $("#checkAll").click(function(){
             if($("#checkAll:checked").length > 0) {
                 $(".checkbox").prop('checked', true);
