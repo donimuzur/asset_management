@@ -18,13 +18,21 @@ $.ajax({
             data: {
                 labels: label,
                 datasets: [{
-                    label: 'Total',
+                    label: label,
                     backgroundColor: 'rgb(252, 116, 101)',
                     borderColor: 'rgb(255, 255, 255)',
                     data: value
                 }]
             },
-            options: {}
+            options: {
+                scales: {
+                   yAxes: [{
+                      ticks: {
+                         stepSize: 1
+                      }
+                   }]
+                }
+             }
         });
     }
 });
