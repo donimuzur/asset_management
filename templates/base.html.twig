@@ -1,147 +1,251 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-focus">
     <head>
-    <!-- Required meta tags -->
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+        <title>Asset Management System</title>
+
         <meta name="description" content="Asset Management System">
-        <meta name="author" content="Polowijo Gosari Indonesia">
+        <meta name="author" content="zulfi.rusdani@polowijogosari.com">
+        <meta name="robots" content="noindex, nofollow">
 
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <!-- Icons -->
+        <link rel="shortcut icon" href="/assets/media/favicons/favicon.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/favicons/favicon-192x192.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/favicons/apple-touch-icon-180x180.png">
+        <!-- END Icons -->
 
-        <!-- vendor css -->
-        <link href="/content/lib/font-awesome/css/font-awesome.css" rel="stylesheet">
-        <link href="/content/lib/Ionicons/css/ionicons.css" rel="stylesheet">
-        <link href="/content/lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
-        <link href="/content/lib/highlightjs/github.css" rel="stylesheet">
-        <link href="/content/lib/jquery-toggles/toggles-full.css" rel="stylesheet">
-        <link href="/content/lib/rickshaw/rickshaw.min.css" rel="stylesheet">
-        <link href="/content/lib/easyautocomplete/easy-autocomplete.min.css" rel="stylesheet">
-        <link href="/content/lib/datatables/jquery.dataTables.css" rel="stylesheet">
-        <link href="/content/lib/select2/css/select2.min.css" rel="stylesheet">
-
-        <!-- Amanda CSS -->
-        <link rel="stylesheet" href="/content/css/amanda.css">        
-    </head>
-
-    <body>
-        <div class="am-header">
-            <div class="am-header-left">
-                <a id="naviconLeft" href="" class="am-navicon d-none d-lg-flex"><i class="icon ion-navicon-round"></i></a>
-                <a id="naviconLeftMobile" href="" class="am-navicon d-lg-none"><i class="icon ion-navicon-round"></i></a>
-                <a href="/" class="am-logo">Asset Management System</a>
-            </div><!-- am-header-left -->
-
-            <div class="am-header-right">
-                
-                <div class="dropdown dropdown-profile">
-                    <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-                        <img src="/content/img/img3.jpg" class="wd-32 rounded-circle" alt="">
-                        <span class="logged-name"><span class="hidden-xs-down">{{app.user.FullName}}</span> <i class="fa fa-angle-down mg-l-3"></i></span>
-                    </a>
-                    <div class="dropdown-menu wd-200">
-                        <ul class="list-unstyled user-profile-nav">
-                            <li><a href="{{ path('app_logout')}}"><i class="icon ion-power"></i> Sign Out</a></li>
-                        </ul>
-                    </div><!-- dropdown-menu -->
-                </div><!-- dropdown -->
-            </div><!-- am-header-right -->
-        </div><!-- am-header -->
-
-        <div class="am-sideleft">
-            <div class="tab-content">
-                <div id="mainMenu" class="tab-pane active">
-                    <ul class="nav am-sideleft-menu">
-                        <li class="nav-item">
-                            <a href="{{ path('default') }}" class="nav-link {% if app.request.get('_route') == 'default' %}active{% endif %}">
-                                <i class="icon ion-grid"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li><!-- nav-item -->
-                         <li class="nav-item">
-                            <a href="" class="nav-link with-sub {% if app.request.get('_route') starts with 'asset_tanah_' %}show-sub active{% endif %}">
-                                <i class="icon ion-earth"></i>
-                                <span>Asset Tanah</span>
-                            </a>
-                            <ul class="nav-sub">
-                                <li class="nav-item"><a href="{{ path('asset_tanah_perusahaan_index')}}" class="nav-link {% if app.request.get('_route') starts with 'asset_tanah_perusahaan_' %}active{% endif %}">Asset Perusahaan</a></li>
-                                <li class="nav-item"><a href="{{ path('asset_tanah_pribadi_index')}}" class="nav-link {% if app.request.get('_route') starts with 'asset_tanah_pribadi_' %}active{% endif %}">Asset Pribadi</a></li>
-                            </ul>
-                        </li><!-- nav-item -->
-                        <li class="nav-item">
-                            <a href="" class="nav-link with-sub">
-                                 <i class="icon ion-ios-home"></i>
-                                <span>Asset Bangunan</span>
-                            </a>
-                            <ul class="nav-sub">
-                                <li class="nav-item"><a href="#" class="nav-link ">Asset Perusahaan</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">Asset Pribadi</a></li>
-                            </ul>
-                        </li><!-- nav-item -->
-                        <li class="nav-item">
-                            <a href="" class="nav-link with-sub {% if app.request.get('_route') starts with 'asset_kendaraan_' %}show-sub active{% endif %}">
-                                 <i class="icon ion-android-car"></i>
-                                <span>Asset Kendaraan</span>
-                            </a>
-                            <ul class="nav-sub">
-                                <li class="nav-item"><a href="{{ path('asset_kendaraan_motor_index')}}" class="nav-link {% if app.request.get('_route') starts with 'asset_kendaraan_motor_' %}active{% endif %}">Motor</a></li>
-                                <li class="nav-item"><a href="{{ path('asset_kendaraan_mobil_index')}}" class="nav-link {% if app.request.get('_route') starts with 'asset_kendaraan_mobil_' %}active{% endif %}">Mobil</a></li>
-                            </ul>
-                        </li><!-- nav-item -->
-                         {% if app.user.UserRoleId.Name == 'ROLE_ADMIN' %}
-                        <li class="nav-item">
-                            <a href="" class="nav-link with-sub {% if app.request.get('_route') starts with 'master' %}show-sub active{% endif %}">
-                                 <i class="icon ion-gear-b"></i>
-                                <span>Master</span>
-                            </a>
-                            <ul class="nav-sub">
-                                <li class="nav-item"><a href="{{ path('master_asset_user_index')}}" class="nav-link {% if app.request.get('_route') in ['master_asset_user_index','master_asset_user_new','master_asset_user_show','master_asset_user_edit'] %}active{% endif %}">Master User</a></li>
-                                <li class="nav-item"><a href="{{ path('master_asset_user_role_index')}}" class="nav-link {% if app.request.get('_route') in ['master_asset_user_role_index','master_asset_user_role_new','master_asset_user_role_show','master_asset_user_role_edit'] %}active{% endif %}">Master User Role</a></li>
-                            </ul>
-                        </li><!-- nav-item -->
-                        {% endif %}
-                    </ul>
-                </div><!-- #mainMenu -->
-            </div><!-- tab-content -->
-        </div><!-- am-sideleft -->
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="/assets/js/plugins/sweetalert2/sweetalert2.min.css">
+        {% block steylesheets %}
         
-        <div class="am-mainpanel">
-            <div class="am-pagetitle">
-                <h5 class="am-title">{% block HeaderTitle %}{% endblock %}</h5>
-           
-            </div><!-- am-pagetitle -->
-            {% block body %}
-            {% endblock %}
-            <div class="am-footer">
-                <span>Copyright &copy;. All Rights Reserved. Polowijo Gosari Indonesia.</span>
-            </div><!-- am-footer -->
-        </div><!-- am-mainpanel -->
+        {% endblock %}
+        <!-- Fonts and Codebase framework -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
+        <link rel="stylesheet" id="css-main" href="/assets/css/codebase.min.css">
+
+        <!-- END Stylesheets -->
+    </head>
+    <body>
+        <!-- Page Container -->
+        {% block page_container %}
+        <div id="page-container" class="sidebar-o sidebar-inverse enable-page-overlay side-scroll page-header-fixed main-content-narrow">
+        {% endblock %}
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <!-- Sidebar Content -->
+                <div class="sidebar-content">
+                    <!-- Side Header -->
+                    <div class="content-header content-header-fullrow px-15">
+                        <!-- Normal Mode -->
+                        <div class="content-header-section text-center align-parent sidebar-mini-hidden">
+                            <!-- Close Sidebar, Visible only on mobile screens -->
+                            <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                            <button type="button" class="btn btn-circle btn-dual-secondary d-lg-none align-v-r" data-toggle="layout" data-action="sidebar_close">
+                                <i class="fa fa-times text-danger"></i>
+                            </button>
+                            <!-- END Close Sidebar -->
+
+                            <!-- Logo -->
+                            <div class="content-header-item">
+                                <a class="link-effect font-w700" href="{{ path('default') }}">
+                                    <span class="font-size-xl text-dual-primary-dark">Asset </span><span class="font-size-xl text-primary">Management</span>
+                                </a>
+                            </div>
+                            <!-- END Logo -->
+                        </div>
+                        <!-- END Normal Mode -->
+                    </div>
+                    <!-- END Side Header -->
+
+                    <!-- Side User -->
+                    <div class="content-side content-side-full content-side-user px-10 align-parent">
+                        <!-- Visible only in normal mode -->
+                        <div class="sidebar-mini-hidden-b text-center">
+                            <a class="img-link" href="">
+                                <img class="img-avatar" src="/assets/media/avatars/avatar15.jpg" alt="">
+                            </a>
+                            <ul class="list-inline mt-10">
+                                <li class="list-inline-item">
+                                    <a class="link-effect text-dual-primary-dark font-size-xs font-w600 text-uppercase">{{app.user.FullName}}</a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
+                                    <a class="link-effect text-dual-primary-dark" data-toggle="layout" data-action="sidebar_style_inverse_toggle" href="javascript:void(0)">
+                                        <i class="si si-drop"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="link-effect text-dual-primary-dark" href="{{ path('app_logout')}}">
+                                        <i class="si si-logout"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Visible only in normal mode -->
+                    </div>
+                    <!-- END Side User -->
+
+                    <!-- Side Navigation -->
+                    <div class="content-side content-side-full">
+                        <ul class="nav-main">
+                            <li>
+                                <a class="{% if app.request.get('_route') == 'default' %}active{% endif %}" href="{{ path('default') }}"><i class="si si-grid"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                            </li>
+                            <li class="{% if app.request.get('_route') starts with 'asset_tanah_' %}open{% endif %}">
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-globe"></i><span class="sidebar-mini-hide">Asset Tanah</span></a>
+                                <ul>
+                                    <li>
+                                        <a class="{% if app.request.get('_route') starts with 'asset_tanah_perusahaan_' %}active{% endif %}" href="{{ path('asset_tanah_perusahaan_index')}}"><span class="sidebar-mini-hide">Perusahaan</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="{% if app.request.get('_route') starts with 'asset_tanah_pribadi_' %}active{% endif %}" href="{{ path('asset_tanah_pribadi_index')}}"><span class="sidebar-mini-hide">Pribadi</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-home"></i><span class="sidebar-mini-hide">Asset Bangunan</span></a>
+                                <ul>
+                                    <li>
+                                        <a class="" href=""><span class="sidebar-mini-hide">Perusahaan</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="" href=""><span class="sidebar-mini-hide">Pribadi</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{% if app.request.get('_route') starts with 'asset_kendaraan_' %}open{% endif %}">
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-shuffle"></i><span class="sidebar-mini-hide">Asset Kendaraan</span></a>
+                                <ul>
+                                    <li>
+                                        <a class="{% if app.request.get('_route') starts with 'asset_kendaraan_mobil_' %}active{% endif %}" href="{{ path('asset_kendaraan_mobil_index')}}"><span class="sidebar-mini-hide">Mobil</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="{% if app.request.get('_route') starts with 'asset_kendaraan_motor_' %}active{% endif %}" href="{{ path('asset_kendaraan_motor_index')}}"><span class="sidebar-mini-hide">Motor</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% if app.user.UserRoleId.Name == 'ROLE_ADMIN' %}
+                            <li class="{% if app.request.get('_route') starts with 'master' %}open{% endif %}">
+                                <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-settings"></i><span class="sidebar-mini-hide">Master</span></a>
+                                <ul>
+                                    <li>
+                                        <a class="{% if app.request.get('_route') in ['master_asset_user_index','master_asset_user_new','master_asset_user_show','master_asset_user_edit'] %}active{% endif %}" href="{{ path('master_asset_user_index')}}"><span class="sidebar-mini-hide">Master User</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="{% if app.request.get('_route') in ['master_asset_user_role_index','master_asset_user_role_new','master_asset_user_role_show','master_asset_user_role_edit'] %}active{% endif %}" href="{{ path('master_asset_user_role_index')}}"><span class="sidebar-mini-hide">Master User Role</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <!-- END Side Navigation -->
+                </div>
+                <!-- Sidebar Content -->
+            </nav>
+            <!-- END Sidebar -->
+
+            <!-- Header -->
+            <header id="page-header">
+                <!-- Header Content -->
+                <div class="content-header">
+                    <!-- Left Section -->
+                    <div class="content-header-section">
+                        <!-- Toggle Sidebar -->
+                        <button type="button" class="btn btn-circle btn-dual-secondary" data-toggle="layout" data-action="sidebar_toggle">
+                            <i class="fa fa-navicon"></i>
+                        </button>
+                        <!-- END Toggle Sidebar -->
+                    </div>
+                    <!-- END Left Section -->
+
+                    <!-- Right Section -->
+                    <div class="content-header-section">
+                        <!-- User Dropdown -->
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-rounded btn-dual-secondary" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user d-sm-none"></i>
+                                <span class="d-none d-sm-inline-block">{{app.user.FullName}}</span>
+                                <i class="fa fa-angle-down ml-5"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right min-width-200" aria-labelledby="page-header-user-dropdown">
+                                <h5 class="h6 text-center py-10 mb-5 border-b text-uppercase">{{app.user.UserRoleId.DisplayName}}</h5>
+                                <a class="dropdown-item" href="">
+                                    <i class="si si-lock mr-5"></i> Change Password
+                                </a>
+                                <a class="dropdown-item" href="{{ path('app_logout')}}">
+                                    <i class="si si-logout mr-5"></i> Sign Out
+                                </a>
+                            </div>
+                        </div>
+                        <!-- END User Dropdown -->
+                    </div>
+                    <!-- END Right Section -->
+                </div>
+                <!-- END Header Content -->
+
+                <!-- Header Loader -->
+                <div id="page-header-loader" class="overlay-header bg-primary">
+                    <div class="content-header content-header-fullrow text-center">
+                        <div class="content-header-item">
+                            <i class="fa fa-sun-o fa-spin text-white"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- END Header Loader -->
+            </header>
+            <!-- END Header -->
+
+            <!-- Main Container -->
+            <main id="main-container">
+
+                {% block body %}
+
+                {% endblock %}
+
+            </main>
+            <!-- END Main Container -->
+
+            <!-- Footer -->
+            <footer id="page-footer" class="opacity-0">
+                <div class="content py-20 font-size-xs clearfix">
+                    <div class="float-left">
+                        <a class="font-w600">Copyright Polowijo Gosari Indonesia</a> &copy; <span class="js-year-copy"></span>
+                    </div>
+                </div>
+            </footer>
+            <!-- END Footer -->
+        </div>
+        <!-- END Page Container -->        
+        <script src="/assets/js/codebase.core.min.js"></script>
+        <script src="/assets/js/codebase.app.min.js"></script>
+
+        <script src="/assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js"></script>
+        <script src="/assets/js/plugins/es6-promise/es6-promise.auto.min.js"></script>
+        <script src="/assets/js/plugins/sweetalert2/sweetalert2.min.js"></script>
+
         {% block javascripts %}
-        <script src="/content/lib/jquery/jquery.js"></script>
-        <script src="/content/lib/popper.js/popper.js"></script>
-        <script src="/content/lib/bootstrap/bootstrap.js"></script>
-        <script src="/content/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
-        <script src="/content/lib/jquery-toggles/toggles.min.js"></script>
-        <script src="/content/lib/d3/d3.js"></script>
-        <script src="/content/lib/rickshaw/rickshaw.min.js"></script>
-        <script src="/content/lib/gmaps/gmaps.js"></script>
-        <script src="/content/lib/Flot/jquery.flot.js"></script>
-        <script src="/content/lib/Flot/jquery.flot.pie.js"></script>
-        <script src="/content/lib/Flot/jquery.flot.resize.js"></script>
-        <script src="/content/lib/flot-spline/jquery.flot.spline.js"></script>
-        <script src="/content/lib/easyautocomplete/jquery.easy-autocomplete.min.js"></script>
-        <script src="/content/lib/highlightjs/highlight.pack.js"></script>
-        <script src="/content/lib/datatables/jquery.dataTables.js"></script>
-        <script src="/content/lib/datatables-responsive/dataTables.responsive.js"></script>
-        <script src="/content/lib/select2/js/select2.min.js"></script>
-        <script src="/content/lib/parsleyjs/parsley.js"></script>
-        <script src="/content/js/amanda.js"></script>
-        <script src="/content/js/ResizeSensor.js"></script>
-        <script src="/content/js/dashboard.js"></script>
         <script>
-             setTimeout(function() {
-                $('.alert').fadeOut('fast');
-            }, 3000); 
+        var e = Swal.mixin({ buttonsStyling: !1, customClass: { confirmButton: "btn btn-alt-success m-5", cancelButton: "btn btn-alt-danger m-5"} });
+        $(".js-swal-confirm").on("click", function (n) {
+            let $form = $(this).closest('form');
+            e.fire({
+                title: "Are you sure?",
+                type: "warning",
+                showCancelButton: !0,
+                customClass: { confirmButton: "btn btn-alt-danger m-1", cancelButton: "btn btn-alt-secondary m-1" },
+                confirmButtonText: "Yes, delete it!",
+                html: !1,
+            }).then(function (n) {
+                n.value ? $form.submit() : "cancel" === n.dismiss;
+            });
+        });
+        
+        setTimeout(function() {
+            $('.alert').fadeOut('fast');
+        }, 3000); 
         </script>
         {% endblock %}
     </body>

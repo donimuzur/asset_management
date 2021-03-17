@@ -4,25 +4,48 @@
 {% block HeaderTitle %}Dashboard{% endblock %}
 {% set FormTitle =  ''%}
 {% set description = ' ' %}
-
+{% block page_container %}
+    <div id="page-container" class="sidebar-o sidebar-inverse enable-page-overlay side-scroll page-header-fixed page-header-glass page-header-inverse main-content-boxed">
+{% endblock %}
 {% block body %}
- <div class="am-pagebody">
-    <div class="row row-sm">
-        <div class="col-xl-6">
-            <div class="card pd-20 pd-sm-40">
-                <h6 class="card-body-title">Mobil dan motor berdasarkan Manufaktur</h6>
-                <canvas id="chartBar3" height="300"></canvas>
-            </div><!-- card -->
-        </div><!-- col-6 -->
+    <div class="bg-image bg-image-bottom" style="background-image: url('/assets/media/photos/photo34@2x.jpg');">
+        <div class="bg-primary-dark-op">
+            <div class="content content-top text-center overflow-hidden">
+                <div class="pt-50 pb-20">
+                    <h1 class="font-w700 text-white mb-10 invisible" data-toggle="appear" data-class="animated fadeInUp">Dashboard</h1>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="content">
+        <div class="row invisible" data-toggle="appear">
+            <div class="col-md-6">
+                <div class="block" id="chart1">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            Mobil dan motor berdasarkan Manufaktur
+                        </h3>
+                        <div class="block-options">
+                            <button type="button" class="btn-block-option" onClick="init2()" >
+                                <i class="si si-refresh"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="block-content block-content-full">
+                        <div class="pull-all pt-30">
+                            <canvas id="chartBar3"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block javascripts %}
     {{ parent() }}
-    
-    <script src="/content/lib/chart.js/Chart.js"></script>
+    <script src="/assets/js/plugins/chartjs/Chart.js"></script>
     <script src="/src/Scripts/Dashboard/dashboard.js"></script>
- 
 {% endblock %}
