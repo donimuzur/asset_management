@@ -40,7 +40,7 @@ class DefaultController extends AbstractController
 
     
     /**
-     * @Route("/GetLuasanPerDesaa", name="GetLuasanPerDesaa", methods={"GET","POST"})
+     * @Route("/GetLuasanPerDesa", name="GetLuasanPerDesa", methods={"GET","POST"})
      */
     public function Dashboard2(SerializerInterface $serializer,AssetTanahPerusahaanRepository $assetTanahPerusahaanRepo, AssetTanahPribadiRepository $assetTanahPribadiRepo): Response
     {

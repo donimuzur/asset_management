@@ -23,7 +23,7 @@ class AssetTanahPerusahaanRepository extends ServiceEntityRepository
     public function getLuasanPerDesa()
     {
         return $this->createQueryBuilder("a")
-              ->select("a.desa as Desa, sum(a.luasan) as Total")
+              ->select("a.desa as Desa, sum(a.luasan) as Total, 'Perusahaan' as GroupBy ")
               ->groupBy('a.desa')
               ->getQuery()
               ->getResult();

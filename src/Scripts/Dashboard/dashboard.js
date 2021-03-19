@@ -11,34 +11,38 @@
         $.ajax({
             url: "/public/index.php/GetKendaraanByManufaktur",
             method: "GET",
-            success: function(data) {
-                console.log(data);
-                var label = [];
-                var value = [];
-                var backgroundColor = [];
+            success: function(jsonData) {
+                data = null;
+                if(jsonData[0].Manufacturer != null)
+                {
+                    var nameIndices = Object.create(null),
+                    statusHash = Object.create(null),
+                    data = { labels: [], datasets: [] };
 
-                for (var i in data) {
-                    if(data[i].Manufacturer != null)
-                    {
-                        label.push(data[i].Manufacturer);
-                        value.push(data[i].Total);
-                        backgroundColor.push(dynamicColors());
-                    }
+                    jsonData.forEach(function (o) {
+                        if (!(o.GroupBy in nameIndices)) {
+                            nameIndices[o.GroupBy] = data.labels.push(o.GroupBy) - 1;
+                            data.datasets.forEach(function (a) { a.data.push(0); });
+                        }
+                        if (!statusHash[o.Manufacturer]) {
+                            statusHash[o.Manufacturer] = { label: o.Manufacturer, backgroundColor: dynamicColors(), data: data.labels.map(function () { return 0; }) };
+                            data.datasets.push(statusHash[o.Manufacturer]);
+                        }
+                        statusHash[o.Manufacturer].data[nameIndices[o.GroupBy]] = o.Total;
+                    });
                 }
+                
+
                 var ctx = document.getElementById('chartBar3').getContext('2d');
                 var chart = new Chart(ctx, {
                     type: 'bar',
-                    data: {
-                        labels: label,
-                        datasets: [{
-                            label: "Jumlah kendaraan berdasarkan manufaktur",
-                            backgroundColor: backgroundColor,
-                            borderColor: backgroundColor,
-                            data: value
-                        }]
-                    },
+                    data: data,
                     options:{
                         scales:{
+                            xAxes: [{
+                                //stacked: true,
+                                stacked: true,
+                              }],
                             yAxes: [{
                                 display: true,
                                 ticks: {
@@ -57,36 +61,39 @@
     function init3(){ 
         $('#chart2').toggleClass("block-mode-loading");
         $.ajax({
-            url: "/public/index.php/GetLuasanPerDesaa",
+            url: "/public/index.php/GetLuasanPerDesa",
             method: "GET",
-            success: function(data) {
-                console.log(data);
-                var label = [];
-                var value = [];
-                var backgroundColor = [];
-               
-                for (var i in data) {
-                    if(data[i].Desa != null)
-                    {
-                        label.push(data[i].Desa);
-                        value.push(data[i].Total);
-                        backgroundColor.push(dynamicColors());
-                    }
+            success: function(jsonData) {
+                data = null;
+                if(jsonData[0].Desa != null){
+                    var nameIndices = Object.create(null),
+                    statusHash = Object.create(null),
+                    data = { labels: [], datasets: [] };
+
+                    jsonData.forEach(function (o) {
+                        if (!(o.GroupBy in nameIndices)) {
+                            nameIndices[o.GroupBy] = data.labels.push(o.GroupBy) - 1;
+                            data.datasets.forEach(function (a) { a.data.push(0); });
+                        }
+                        if (!statusHash[o.Desa]) {
+                            statusHash[o.Desa] = { label: o.Desa, backgroundColor: dynamicColors(), data: data.labels.map(function () { return 0; }) };
+                            data.datasets.push(statusHash[o.Desa]);
+                        }
+                        statusHash[o.Desa].data[nameIndices[o.GroupBy]] = o.Total;
+                    });
+
                 }
+                
                 var ctx = document.getElementById('chartBar4').getContext('2d');
                 var chart = new Chart(ctx, {
                     type: 'bar',
-                    data: {
-                        labels: label,
-                        datasets: [{
-                            label: "Total Luasan per Desa (M2)",
-                            backgroundColor: backgroundColor,
-                            borderColor: backgroundColor,
-                            data: value
-                        }]
-                    },
+                    data: data,
                     options:{
                         scales:{
+                            xAxes: [{
+                                //stacked: true,
+                                stacked: true,
+                              }],
                             yAxes: [{
                                 display: true,
                                 ticks: {

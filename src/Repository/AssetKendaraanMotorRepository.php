@@ -22,7 +22,7 @@ class AssetKendaraanMotorRepository extends ServiceEntityRepository
     public function findMotorByManufacturer()
     {
         return $this->createQueryBuilder("a")
-              ->select("a.Manfucaturer as Manufacturer, count(a.Manfucaturer) as Total")
+              ->select("a.Manfucaturer as Manufacturer, count(a.Manfucaturer) as Total, 'Motor' as GroupBy")
               ->groupBy('a.Manfucaturer')
               ->getQuery()
               ->getResult();

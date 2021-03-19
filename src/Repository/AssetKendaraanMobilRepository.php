@@ -22,7 +22,7 @@ class AssetKendaraanMobilRepository extends ServiceEntityRepository
     public function findMobilByManufacturer()
     {
         return $this->createQueryBuilder("a")
-              ->select("a.Manufacturer, count(a.Manufacturer) as Total")
+              ->select("a.Manufacturer, count(a.Manufacturer) as Total, 'Mobil' as GroupBy")
               ->groupBy('a.Manufacturer')
               ->getQuery()
               ->getResult();

@@ -22,7 +22,7 @@ class AssetTanahPribadiRepository extends ServiceEntityRepository
     public function getLuasanPerDesa()
     {
         return $this->createQueryBuilder("a")
-              ->select("a.desa as Desa, sum(a.luasan) as Total")
+              ->select("a.desa as Desa, sum(a.luasan) as Total, 'Pribadi' as GroupBy ")
               ->groupBy('a.desa')
               ->getQuery()
               ->getResult();
