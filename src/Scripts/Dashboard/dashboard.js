@@ -1,6 +1,11 @@
     init2();
     init3();
-
+    function dynamicColors() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+     };
     function init2(){ 
         $('#chart1').toggleClass("block-mode-loading");
         $.ajax({
@@ -10,11 +15,14 @@
                 console.log(data);
                 var label = [];
                 var value = [];
+                var backgroundColor = [];
+
                 for (var i in data) {
                     if(data[i].Manufacturer != null)
                     {
                         label.push(data[i].Manufacturer);
                         value.push(data[i].Total);
+                        backgroundColor.push(dynamicColors());
                     }
                 }
                 var ctx = document.getElementById('chartBar3').getContext('2d');
@@ -23,9 +31,9 @@
                     data: {
                         labels: label,
                         datasets: [{
-                            label: label,
-                            backgroundColor: 'rgb(252, 116, 101)',
-                            borderColor: 'rgb(255, 255, 255)',
+                            label: "Jumlah kendaraan berdasarkan manufaktur",
+                            backgroundColor: backgroundColor,
+                            borderColor: backgroundColor,
                             data: value
                         }]
                     },
@@ -56,12 +64,7 @@
                 var label = [];
                 var value = [];
                 var backgroundColor = [];
-                var dynamicColors = function() {
-                    var r = Math.floor(Math.random() * 255);
-                    var g = Math.floor(Math.random() * 255);
-                    var b = Math.floor(Math.random() * 255);
-                    return "rgb(" + r + "," + g + "," + b + ")";
-                 };
+               
                 for (var i in data) {
                     if(data[i].Desa != null)
                     {
