@@ -4180,7 +4180,7 @@ a.badge-dark:focus {
 }
 .alert-success {
     color: #516a35;
-    background-color: #ebf5e0;
+    background-color: #baea84;
     border-color: #e3f1d4;
 }
 .alert-success hr {
@@ -11225,11 +11225,25 @@ fieldset[disabled] .form-material.floating > label {
     box-shadow: 0 1px 0 #d4dae3;
     transition: box-shadow 0.3s ease-out;
 }
+.form-material > .easy-autocomplete > .form-control {
+    padding-left: 0;
+    padding-right: 0;
+    border-color: transparent;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: 0 1px 0 #d4dae3;
+    transition: box-shadow 0.3s ease-out;
+}
 .form-material > .form-control ~ .input-group-append {
     box-shadow: 0 1px 0 #d4dae3;
     transition: box-shadow 0.3s ease-out;
 }
 .form-material > .form-control:focus {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: 0 2px 0 #97a5ba;
+}
+.form-material > .easy-autocomplete > .form-control:focus {
     background-color: transparent;
     border-color: transparent;
     box-shadow: 0 2px 0 #97a5ba;

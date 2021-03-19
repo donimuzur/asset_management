@@ -127,7 +127,7 @@ class AssetKendaraanMotorController extends AbstractController
         $attachmentsToDelete = $request->request->get('chkAssetKendaraan');
         $AssetKendaraanMotorId = $request->request->get('AssetKendaraanMotorId');
 
-        if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) 
+        if ($this->isCsrfTokenValid('delete', $request->request->get('_token')) && !is_null($attachmentsToDelete)) 
         {
             $entityManager = $this->getDoctrine()->getManager();
             
@@ -197,7 +197,7 @@ class AssetKendaraanMotorController extends AbstractController
     {
         $assetKendaraanMotorToDelete = $request->request->get('chkAssetKendaraanMotor');
 
-        if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) 
+        if ($this->isCsrfTokenValid('delete', $request->request->get('_token')) && !is_null($assetKendaraanMotorToDelete)) 
         {
             $entityManager = $this->getDoctrine()->getManager();
             

@@ -1,90 +1,122 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Asset Tanah Pribadi List{% endblock %}
-{% block HeaderTitle %}Asset Tanah Pribadi{% endblock %}
+{% block title %}Asset Tanah Pribadi{% endblock %}
+{% set HeaderTitle = 'Asset Tanah Pribadi' %}
 {% set FormTitle =  'Asset Tanah Pribadi List'%}
 {% set description = 'Add New user ' %}
 
+{% block steylesheets %}
+{% endblock %}
+
 {% block body %}
-<div class="am-pagebody">
-    <div class="card pd-20 pd-sm-40">
-    
+ <!-- Page Content -->
+<div class="content">
     {{ include('_globalMessage.html.twig') }}
-        
-    <form method="post"  action='{{ path('asset_tanah_pribadi_delete') }}' onsubmit="return confirm('Are you sure you want to delete this item?');" >
-        <div class="row">
-            <div class="col-lg-6">
-                <h6 class="card-body-title">{{ FormTitle}}</h6>
+    <!-- Material Design -->
+    <h2 class="content-heading">{{ HeaderTitle }}</h2>
+    <div class="block">
+        <form method="post" action='{{ path('asset_tanah_pribadi_delete') }}' id='frmEmpDelAttachments'>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">{{ FormTitle }}</h3>
             </div>
-            <div class="col-lg-6" style="text-align: right;margin-bottom: 10px;">
-                <a class="btn btn-primary mg-x-10" href="{{ path('asset_tanah_pribadi_new') }}">Create new</a>
-                <button class="btn btn-danger" id='btnDeleteAttachment'>Delete</button>
-            </div>
-        </div>
-      
-        <div class="table-responsive">
-            <table id="datatable" class="table display responsive nowrap">
-                <thead>
-                    <tr>
-                        <th>
-                            <label class="ckbox mg-b-0">
-                                <input type="checkbox" id='checkAll'><span></span>
-                            </label>
-                        </th>
-                        <th>Luasan</th>
-                        <th>No SHM</th>
-                        <th>Nama Pemilik</th>
-                        <th>Status</th>
-                        <th>Status Pembayaran</th>
-                        <th>actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for asset_tanah_pribadi in asset_tanah_pribadis %}
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                        <tr>
-                            <td>
+            <div class="block-content block-content-full">
+                <div class="col-lg-12" style="text-align: right;margin-bottom: 10px;">
+                    <a class="btn btn-primary mg-x-10" href="{{ path('asset_tanah_pribadi_new') }}">Create new</a>
+                    <button type="button" class="js-swal-confirm btn btn-danger">Delete</button>
+                </div>
+                <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
+                    <thead>
+                        <tr  style="background: lightgray;">
+                            <th>
                                 <label class="ckbox mg-b-0">
-                                    <input type='checkbox' class='checkbox' name='chkAssetTanah[]' value={{ asset_tanah_pribadi.id}}/><span></span>
-                                </label>    
-                            </td>
-                            <td>{{ asset_tanah_pribadi.luasan }}</td>
-                            <td>{{ asset_tanah_pribadi.noShm }}</td>
-                            <td>{{ asset_tanah_pribadi.namaPemilik }}</td>
-                            <td>{{ asset_tanah_pribadi.Status }}</td>
-                            <td>{{ asset_tanah_pribadi.statusPembayaran }}</td>
-                            <td>
-                                <div class="d-flex align-items-center justify-content-end">
-                                    <div class="d-md-flex">
-                                        <a href="{{ path('asset_tanah_pribadi_edit', {'id': asset_tanah_pribadi.id}) }}" class="btn btn-outline-primary btn-block"><i class="fa fa-pencil-square-o mg-r-10"></i> Edit</a>
-                                    </div>
-                                </div>
-                            </td>
+                                    <input type="checkbox" id='checkAll'><span></span>
+                                </label>
+                            </th>
+                            <th>Lokasi</th>
+                            <th>Luasan</th>
+                            <th>No Sertifikat</th>
+                            <th>Atas Nama</th>
+                            <th>NJOP</th>
+                            <th>Status</th>
+                            <th>actions</th>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="7">no records found</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </form>
+                    </thead>
+                    <tbody>
+                        {% for asset_tanah_pribadi in asset_tanah_pribadis %}
+                            <tr>
+                                <td>
+                                    <label class="ckbox mg-b-0">
+                                        <input type='checkbox' class='checkbox' name='chkAssetTanah[]' value={{ asset_tanah_pribadi.id}}/><span></span>
+                                    </label>    
+                                </td>
+                                <td>{{ asset_tanah_pribadi.desa }}</td>
+                                <td>{{ asset_tanah_pribadi.luasan }}</td>
+                                <td>{{ asset_tanah_pribadi.noShm }}</td>
+                                <td>{{ asset_tanah_pribadi.namaPemilik }}</td>
+                                {% set maxValue = 0 %}
+
+                                {% for statusPembayaran in asset_tanah_pribadi.getStatusPembayaran %} 
+                                    {% set maxValue = max(statusPembayaran.getTahunPembayaran, maxValue) %}
+                                {% endfor %} 
+                                {% if maxValue > 0 %} 
+                                    <td>{{ maxValue }}</td> 
+                                {% else %}    
+                                    <td></td>
+                                {% endif %}
+                                <td>{{ asset_tanah_pribadi.Status }}</td>
+                                <td class="text-center">
+                                    <a href="{{ path('asset_tanah_pribadi_edit', {'id': asset_tanah_pribadi.id}) }}" class="btn btn-sm btn-secondary" title="Edit">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
+    <!-- END Dynamic Table Full Pagination -->
 </div>
-   
-    
+<!-- End Page Content -->
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
+
      <script>
-        $('#datatable').DataTable({
-            responsive: true,
-            bLengthChange: false,
-            searching: false,
+
+       $(".js-dataTable-full-pagination").dataTable({
+            scrollX:true,
+            "searching": false,
+            ordering:false,
+            columnDefs: [{ "width": "200px", "targets": [1,2,3,4] },
+                         { "width": "100px", "targets": [5] }],
+            pageLength: 8,
+            lengthMenu: [
+                [5, 8, 15, 20, 50],
+                [5, 8, 15, 20, 50],
+            ],
+            order: [[1, 'asc']],
+            rowGroup: {
+                startRender: null,
+                endRender: function ( rows, group ) {
+                    var jumlahLuasan = rows
+                        .data()
+                        .pluck(2)
+                        .reduce( function (a, b) {
+                           return a + b*1;
+                        }, 0);
+                        
+                    return $('<tr/>')
+                        .append( '<td colspan="2">Total Luas</td>' )
+                        .append( '<td>'+jumlahLuasan+'</td>' )
+                        .append( '<td colspan="4">&nbsp;</td>' );
+                },
+                dataSrc: 1
+            }
         });
-        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
 
         $("#checkAll").click(function(){
             if($("#checkAll:checked").length > 0) {

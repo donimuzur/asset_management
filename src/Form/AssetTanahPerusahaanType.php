@@ -34,12 +34,6 @@ class AssetTanahPerusahaanType extends AbstractType
                     'C not clear' => 'Clean not clear'
                     ],
                 ],['required'=>true])
-            ->add('status_pembayaran',ChoiceType::class,[
-                'choices'  => [
-                    'Sudah dibayar' => 'Sudah dibayar',
-                    'Belum dibayar' => 'Belum dibayar'
-                    ],
-                ],['required'=>true])
             ->add('keterangan',TextareaType::class,['required'=>false])
         ;
     }

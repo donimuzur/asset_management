@@ -19,6 +19,15 @@ class AssetTanahPribadiRepository extends ServiceEntityRepository
         parent::__construct($registry, AssetTanahPribadi::class);
     }
 
+    public function getLuasanPerDesa()
+    {
+        return $this->createQueryBuilder("a")
+              ->select("a.desa as Desa, sum(a.luasan) as Total")
+              ->groupBy('a.desa')
+              ->getQuery()
+              ->getResult();
+    }
+
     // /**
     //  * @return AssetTanahPribadi[] Returns an array of AssetTanahPribadi objects
     //  */

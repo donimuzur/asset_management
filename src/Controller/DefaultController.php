@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\AssetTanahPerusahaan;
+use App\Entity\AssetTanahPribadi;
 use App\Repository\AssetKendaraanMobilRepository;
 use App\Repository\AssetKendaraanMotorRepository;
+use App\Repository\AssetTanahPerusahaanRepository;
+use App\Repository\AssetTanahPribadiRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +35,19 @@ class DefaultController extends AbstractController
         $dataMobil =  $assetKendaraanMobilRepo->findMobilByManufacturer();
         
         $data = $serializer->serialize(array_merge($dataMobil,$dataMotor),  'json');
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
+    
+    /**
+     * @Route("/GetLuasanPerDesaa", name="GetLuasanPerDesaa", methods={"GET","POST"})
+     */
+    public function Dashboard2(SerializerInterface $serializer,AssetTanahPerusahaanRepository $assetTanahPerusahaanRepo, AssetTanahPribadiRepository $assetTanahPribadiRepo): Response
+    {
+        $dataPerusahaan = $assetTanahPerusahaanRepo->getLuasanPerDesa();
+        $dataPribadi =  $assetTanahPribadiRepo->getLuasanPerDesa();
+        
+        $data = $serializer->serialize(array_merge($dataPerusahaan,$dataPribadi),  'json');
         return new JsonResponse($data, Response::HTTP_OK, [], true);
     }
 }

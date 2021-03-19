@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AssetTanahPerusahaan;
 use App\Entity\AttachmentAssetTanahPerusahaan;
+use App\Entity\StatusPembayaranTanahPerusahaan;
 use App\Form\AssetTanahPerusahaanType;
 use App\Repository\AssetTanahPerusahaanRepository;
 use App\Repository\MasterWilayahRepository;
@@ -122,7 +123,7 @@ class AssetTanahPerusahaanController extends AbstractController
        
         return $this->redirectToRoute('asset_tanah_perusahaan_edit',['id'=>$AssetTanahPerusahaanId]);
     }
-    
+
       /**
      * @Route("/DeleteAttachment", name="asset_tanah_perusahaan_attacment_delete", methods={"DELETE"})
      */
@@ -226,7 +227,7 @@ class AssetTanahPerusahaanController extends AbstractController
         return $this->redirectToRoute('asset_tanah_perusahaan_index');
     }
 
-      /**
+    /**
      * @Route("/DownloadAttachment/{AssetTanahPerusahaanId}/{id}", name="asset_tanah_perusahaan_download_attachment",methods={"GET","POST"})
      */
     public function downloadAttachment(Request $request, int $id, int $AssetTanahPerusahaanId): Response
@@ -298,5 +299,55 @@ class AssetTanahPerusahaanController extends AbstractController
         $models = $masterWilayahRepository->getDesaList($kecId);
         $data = $serializer->serialize($models,  'json');
         return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
+    /**
+     * @Route("/UpdateStatusPembayaran", name="asset_tanah_perusahaan_update_status_pembayaran", methods={"POST"})
+     */
+    public function updateStatusPembayaran(Request $request, SluggerInterface $slugger): Response
+    {
+        $isNew = false;
+        $StatusPembayaranId = $request->request->get('StatusPembayaranId');
+        $Description = $request->request->get('description');
+        $AssetTanahPerusahaanId = $request->request->get('AssetTanahPerusahaanId');
+        $submittedToken = $request->request->get('_token');
+        $Status = $request->request->get('status');
+        $Tahun = $request->request->get('tahun');
+
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('StatusPembayaranAssetTanahPerusahaan', $submittedToken)) {
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $AssetTanahPerusahaan =  $this->getDoctrine()
+                ->getRepository(AssetTanahPerusahaan::class)
+                ->find($AssetTanahPerusahaanId);
+
+            $StatusPembayaranTanahPerusahaan = $this->getDoctrine()
+                ->getRepository(StatusPembayaranTanahPerusahaan::class)
+                ->find($StatusPembayaranId);
+
+            if(!$StatusPembayaranTanahPerusahaan)
+            {
+                $isNew = true;
+                $StatusPembayaranTanahPerusahaan = new StatusPembayaranTanahPerusahaan();
+            }
+            
+            $StatusPembayaranTanahPerusahaan  ->setStatus($Status)
+                                              ->setTahunPembayaran($Tahun)
+                                              ->setAssetTanahPerusahaan($AssetTanahPerusahaan);
+                                                                        
+            if($isNew)
+            {
+                $entityManager->persist($StatusPembayaranTanahPerusahaan);
+            }
+            
+            $entityManager->flush();
+            
+            $this->addFlash(
+                'success',
+                'Data updated!'
+            );
+        }
+       
+        return $this->redirectToRoute('asset_tanah_perusahaan_edit',['id'=>$AssetTanahPerusahaanId]);
     }
 }

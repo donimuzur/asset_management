@@ -19,6 +19,16 @@ class AssetTanahPerusahaanRepository extends ServiceEntityRepository
         parent::__construct($registry, AssetTanahPerusahaan::class);
     }
 
+    
+    public function getLuasanPerDesa()
+    {
+        return $this->createQueryBuilder("a")
+              ->select("a.desa as Desa, sum(a.luasan) as Total")
+              ->groupBy('a.desa')
+              ->getQuery()
+              ->getResult();
+    }
+
     // /**
     //  * @return AssetTanahPerusahaan[] Returns an array of AssetTanahPerusahaan objects
     //  */

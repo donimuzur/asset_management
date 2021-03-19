@@ -1,10 +1,11 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="alert alert-{{ label }}" role="alert">
+        <div class="alert alert-{{ label }} alert-dismissable" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <strong class="d-block d-sm-inline-block-force"> {{ message }}</strong> 
-        </div><!-- alert -->
+            <h3 class="alert-heading font-size-h4 font-w400">{{ label }}</h3>
+            <p class="mb-0">{{ message }}</p>
+        </div>
     {% endfor %}
 {% endfor %}

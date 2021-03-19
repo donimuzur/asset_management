@@ -40,11 +40,6 @@ class AssetTanahPerusahaan
     private $Status;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    private $status_pembayaran;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $keterangan;
@@ -79,9 +74,15 @@ class AssetTanahPerusahaan
      */
     private $Attachment;
 
+    /**
+     * @ORM\OneToMany(targetEntity=StatusPembayaranTanahPerusahaan::class, mappedBy="assetTanahPerusahaan")
+     */
+    private $status_pembayaran;
+
     public function __construct()
     {
         $this->Attachment = new ArrayCollection();
+        $this->status_pembayaran = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,18 +134,6 @@ class AssetTanahPerusahaan
     public function setStatus(?string $Status): self
     {
         $this->Status = $Status;
-
-        return $this;
-    }
-
-    public function getStatusPembayaran(): ?string
-    {
-        return $this->status_pembayaran;
-    }
-
-    public function setStatusPembayaran(?string $status_pembayaran): self
-    {
-        $this->status_pembayaran = $status_pembayaran;
 
         return $this;
     }
@@ -220,6 +209,7 @@ class AssetTanahPerusahaan
 
         return $this;
     }
+   
 
     /**
      * @return Collection|AttachmentAssetTanahPerusahaan[]
@@ -245,6 +235,36 @@ class AssetTanahPerusahaan
             // set the owning side to null (unless already changed)
             if ($attachment->getAssetTanahPerusahaan() === $this) {
                 $attachment->setAssetTanahPerusahaan(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StatusPembayaranTanahPerusahaan[]
+     */
+    public function getStatusPembayaran(): Collection
+    {
+        return $this->status_pembayaran;
+    }
+
+    public function addStatusPembayaran(StatusPembayaranTanahPerusahaan $statusPembayaran): self
+    {
+        if (!$this->status_pembayaran->contains($statusPembayaran)) {
+            $this->status_pembayaran[] = $statusPembayaran;
+            $statusPembayaran->setAssetTanahPerusahaan($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatusPembayaran(StatusPembayaranTanahPerusahaan $statusPembayaran): self
+    {
+        if ($this->status_pembayaran->removeElement($statusPembayaran)) {
+            // set the owning side to null (unless already changed)
+            if ($statusPembayaran->getAssetTanahPerusahaan() === $this) {
+                $statusPembayaran->setAssetTanahPerusahaan(null);
             }
         }
 

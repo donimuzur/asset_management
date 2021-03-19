@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AssetTanahPribadiRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -39,11 +40,6 @@ class AssetTanahPribadi
     private $Status;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    private $status_pembayaran;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $keterangan;
@@ -77,6 +73,16 @@ class AssetTanahPribadi
      * @ORM\OneToMany(targetEntity=AttachmentAssetTanahPribadi::class, mappedBy="assetTanahPribadi", orphanRemoval=true)
      */
     private $Attachment;
+
+    /**
+     * @ORM\OneToMany(targetEntity=StatusPembayaranTanahPribadi::class, mappedBy="assetTanahPribadi")
+     */
+    private $status_pembayaran;
+
+    public function __construct()
+    {
+        $this->status_pembayaran = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,18 +133,6 @@ class AssetTanahPribadi
     public function setStatus(?string $Status): self
     {
         $this->Status = $Status;
-
-        return $this;
-    }
-
-    public function getStatusPembayaran(): ?string
-    {
-        return $this->status_pembayaran;
-    }
-
-    public function setStatusPembayaran(?string $status_pembayaran): self
-    {
-        $this->status_pembayaran = $status_pembayaran;
 
         return $this;
     }
@@ -239,6 +233,36 @@ class AssetTanahPribadi
             // set the owning side to null (unless already changed)
             if ($attachment->getAssetTanahPribadi() === $this) {
                 $attachment->setAssetTanahPribadi(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StatusPembayaranTanahPribadi[]
+     */
+    public function getStatusPembayaran(): Collection
+    {
+        return $this->status_pembayaran;
+    }
+
+    public function addStatusPembayaran(StatusPembayaranTanahPribadi $statusPembayaran): self
+    {
+        if (!$this->status_pembayaran->contains($statusPembayaran)) {
+            $this->status_pembayaran[] = $statusPembayaran;
+            $statusPembayaran->setAssetTanahPribadi($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatusPembayaran(StatusPembayaranTanahPribadi $statusPembayaran): self
+    {
+        if ($this->status_pembayaran->removeElement($statusPembayaran)) {
+            // set the owning side to null (unless already changed)
+            if ($statusPembayaran->getAssetTanahPribadi() === $this) {
+                $statusPembayaran->setAssetTanahPribadi(null);
             }
         }
 

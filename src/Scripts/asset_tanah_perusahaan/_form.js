@@ -18,13 +18,6 @@ function InitProvinsi() {
             },
             onChooseEvent: function () {
                 InitMadya();
-
-                $("#asset_tanah_perusahaan_kabupaten_kota").val('');
-                $("#asset_tanah_perusahaan_kecamatan").val('');
-                $("#asset_tanah_perusahaan_desa").val('');
-
-                $("#data-holder-kabupaten_kota").val('');
-                $("#data-holder-kecamatan").val('');
             }
         }
         
