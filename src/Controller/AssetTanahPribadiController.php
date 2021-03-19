@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AssetTanahPribadi;
 use App\Entity\AttachmentAssetTanahPribadi;
+use App\Entity\StatusPembayaranTanahPribadi;
 use App\Form\AssetTanahPribadiType;
 use App\Repository\AssetTanahPribadiRepository;
 use App\Repository\MasterWilayahRepository;
@@ -297,5 +298,56 @@ class AssetTanahPribadiController extends AbstractController
         $models = $masterWilayahRepository->getDesaList($kecId);
         $data = $serializer->serialize($models,  'json');
         return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
+    
+    /**
+     * @Route("/UpdateStatusPembayaran", name="asset_tanah_pribadi_update_status_pembayaran", methods={"POST"})
+     */
+    public function updateStatusPembayaran(Request $request, SluggerInterface $slugger): Response
+    {
+        $isNew = false;
+        $StatusPembayaranId = $request->request->get('StatusPembayaranId');
+        $Description = $request->request->get('description');
+        $AssetTanahPribadiId = $request->request->get('AssetTanahPribadiId');
+        $submittedToken = $request->request->get('_token');
+        $Status = $request->request->get('status');
+        $Tahun = $request->request->get('tahun');
+
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('StatusPembayaranAssetTanahPribadi', $submittedToken)) {
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            $AssetTanahPribadi =  $this->getDoctrine()
+                ->getRepository(AssetTanahPribadi::class)
+                ->find($AssetTanahPribadiId);
+
+            $StatusPembayaranTanahPribadi = $this->getDoctrine()
+                ->getRepository(StatusPembayaranTanahPribadi::class)
+                ->find($StatusPembayaranId);
+
+            if(!$StatusPembayaranTanahPribadi)
+            {
+                $isNew = true;
+                $StatusPembayaranTanahPribadi = new StatusPembayaranTanahPribadi();
+            }
+            
+            $StatusPembayaranTanahPribadi  ->setStatus($Status)
+                                              ->setTahunPembayaran($Tahun)
+                                              ->setAssetTanahPribadi($AssetTanahPribadi);
+                                                                        
+            if($isNew)
+            {
+                $entityManager->persist($StatusPembayaranTanahPribadi);
+            }
+            
+            $entityManager->flush();
+            
+            $this->addFlash(
+                'success',
+                'Data updated!'
+            );
+        }
+       
+        return $this->redirectToRoute('asset_tanah_pribadi_edit',['id'=>$AssetTanahPribadiId]);
     }
 }
