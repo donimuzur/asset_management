@@ -37,6 +37,7 @@
             },
             rules: {
                 "asset_tanah_perusahaan[no_shm]": { required: true},
+                "asset_tanah_perusahaan[luasan]": { digits:true},
                 "asset_tanah_perusahaan[status_pembayaran]": { required: true},
                 "asset_tanah_perusahaan[provinsi]": { required: true},
                 "asset_tanah_perusahaan[kabupaten_kota]": { required: true},
@@ -45,6 +46,7 @@
             },
             messages: {
                 "asset_tanah_perusahaan[no_shm]": { required: "Field ini mandatory"},
+                "asset_tanah_perusahaan[luasan]": { digits: "Harus diisi angka"},
                 "asset_tanah_perusahaan[status_pembayaran]": { required: "Field ini mandatory"},
                 "asset_tanah_perusahaan[provinsi]": { required: "Field ini mandatory"},
                 "asset_tanah_perusahaan[kabupaten_kota]": { required: "Field ini mandatory"},

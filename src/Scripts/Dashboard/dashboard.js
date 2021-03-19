@@ -13,7 +13,7 @@
             method: "GET",
             success: function(jsonData) {
                 data = null;
-                if(jsonData[0].Manufacturer != null)
+                if(jsonData.length > 0 )
                 {
                     var nameIndices = Object.create(null),
                     statusHash = Object.create(null),
@@ -65,7 +65,7 @@
             method: "GET",
             success: function(jsonData) {
                 data = null;
-                if(jsonData[0].Desa != null){
+                if(jsonData.length > 0 ){
                     var nameIndices = Object.create(null),
                     statusHash = Object.create(null),
                     data = { labels: [], datasets: [] };

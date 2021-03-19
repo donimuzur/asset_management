@@ -37,6 +37,7 @@
             },
             rules: {
                 "asset_tanah_pribadi[no_shm]": { required: true},
+                "asset_tanah_pribadi[luasan]": { digits:true},
                 "asset_tanah_pribadi[status_pembayaran]": { required: true},
                 "asset_tanah_pribadi[provinsi]": { required: true},
                 "asset_tanah_pribadi[kabupaten_kota]": { required: true},
@@ -45,6 +46,7 @@
             },
             messages: {
                 "asset_tanah_pribadi[no_shm]": { required: "Field ini mandatory"},
+                "asset_tanah_pribadi[luasan]": { digits: "Harus diisi angka"},
                 "asset_tanah_pribadi[status_pembayaran]": { required: "Field ini mandatory"},
                 "asset_tanah_pribadi[provinsi]": { required: "Field ini mandatory"},
                 "asset_tanah_pribadi[kabupaten_kota]": { required: "Field ini mandatory"},

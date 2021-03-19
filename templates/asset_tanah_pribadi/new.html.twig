@@ -33,21 +33,23 @@
               jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove();
           },
           rules: {
-              "asset_tanah_pribadi[no_shm]": { required: true},
-              "asset_tanah_pribadi[status_pembayaran]": { required: true},
-              "asset_tanah_pribadi[provinsi]": { required: true},
-              "asset_tanah_pribadi[kabupaten_kota]": { required: true},
-              "asset_tanah_pribadi[kecamatan]": { required: true},
-              "asset_tanah_pribadi[desa]": { required: true},
-          },
-          messages: {
-              "asset_tanah_pribadi[no_shm]": { required: "Field ini mandatory"},
-              "asset_tanah_pribadi[status_pembayaran]": { required: "Field ini mandatory"},
-              "asset_tanah_pribadi[provinsi]": { required: "Field ini mandatory"},
-              "asset_tanah_pribadi[kabupaten_kota]": { required: "Field ini mandatory"},
-              "asset_tanah_pribadi[kecamatan]": { required: "Field ini mandatory"},
-              "asset_tanah_pribadi[desa]": { required: "Field ini mandatory"},
-          },
+                "asset_tanah_pribadi[no_shm]": { required: true},
+                "asset_tanah_pribadi[luasan]": { digits:true},
+                "asset_tanah_pribadi[status_pembayaran]": { required: true},
+                "asset_tanah_pribadi[provinsi]": { required: true},
+                "asset_tanah_pribadi[kabupaten_kota]": { required: true},
+                "asset_tanah_pribadi[kecamatan]": { required: true},
+                "asset_tanah_pribadi[desa]": { required: true},
+            },
+            messages: {
+                "asset_tanah_pribadi[no_shm]": { required: "Field ini mandatory"},
+                "asset_tanah_pribadi[luasan]": { digits: "Harus diisi angka"},
+                "asset_tanah_pribadi[status_pembayaran]": { required: "Field ini mandatory"},
+                "asset_tanah_pribadi[provinsi]": { required: "Field ini mandatory"},
+                "asset_tanah_pribadi[kabupaten_kota]": { required: "Field ini mandatory"},
+                "asset_tanah_pribadi[kecamatan]": { required: "Field ini mandatory"},
+                "asset_tanah_pribadi[desa]": { required: "Field ini mandatory"},
+            },
       });
     </script>
 {% endblock %}
