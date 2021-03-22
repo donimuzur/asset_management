@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Edit Asset User{% endblock %}
-{% block HeaderTitle %}Asset User{% endblock %}
+{% set HeaderTitle = 'Asset User' %}
 {% set FormTitle =  'Edit Asset User'%}
-{% set description = 'Edit Asset user' %}
+{% set description = 'Edit Asset User ' %}
 
 {% block body %}
    {{ include('asset_user/_form.html.twig', {'button_label': 'Submit'}) }}

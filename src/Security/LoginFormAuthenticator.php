@@ -80,9 +80,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         if($credentials)
         {
             $passwordHash = new PasswordHash();
-            return true;
-            $passwordHash->verify($credentials['password'], $user->getPassword());
-           
+            return $passwordHash->verify($credentials['password'], $user->getPassword());
+            
         }
         
         // If there are no credentials to check, you can just return true

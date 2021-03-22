@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AssetUserRepository;
+use App\Utility\PasswordHash;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -141,7 +142,9 @@ class AssetUser implements UserInterface
 
     public function setUserPassword(string $UserPassword): self
     {
-        $this->UserPassword = $UserPassword;
+        $hash = new PasswordHash();
+        
+        $this->UserPassword = $hash->hash($UserPassword);
 
         return $this;
     }

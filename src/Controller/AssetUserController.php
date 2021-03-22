@@ -6,6 +6,7 @@ use App\Helper\Utility\PasswordHash;
 use App\Entity\AssetUser;
 use App\Form\AssetUserType;
 use App\Repository\AssetUserRepository;
+use App\Utility\PasswordHash as UtilityPasswordHash;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +37,6 @@ class AssetUserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {    
-            $PasswordHash = new PasswordHash();
-            $assetUser->setUserPassword($PasswordHash->hash($assetUser->getUserPassword()));
             $assetUser->setCreatedBy('Administrator');
             $date=  new \DateTime('now');
             $assetUser->setCreatedDate($date);
@@ -45,7 +44,10 @@ class AssetUserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($assetUser);
             $entityManager->flush();
-
+            $this->addFlash(
+                'success',
+                'Success, Data were saved'        
+            );
             return $this->redirectToRoute('master_asset_user_index');
         }
 
@@ -75,7 +77,10 @@ class AssetUserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash(
+                'success',
+                'Success, Data were saved'        
+            );
             return $this->redirectToRoute('master_asset_user_index');
         }
 
@@ -84,18 +89,36 @@ class AssetUserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
+    
     /**
-     * @Route("/Delete/{Id}", name="master_asset_user_delete", methods={"DELETE"})
+     * @Route("/Delete", name="master_asset_user_delete", methods={"DELETE"})
      */
     public function delete(Request $request, AssetUser $assetUser): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$assetUser->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($assetUser);
-            $entityManager->flush();
-        }
+        $masterAssetUserToDelete = $request->request->get('chkAssetUser');
 
+        if ($this->isCsrfTokenValid('delete', $request->request->get('_token'))) 
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            foreach($masterAssetUserToDelete as $masterAssetUserToDelete)
+            {
+                    $ObjectToDelete  =  $this->getDoctrine()
+                    ->getRepository(AssetUser::class)
+                    ->find($masterAssetUserToDelete); 
+
+                    $entityManager->remove($ObjectToDelete);
+            }
+
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'Success, Data were deleted'        
+            );
+            
+        }
+        
         return $this->redirectToRoute('master_asset_user_index');
     }
 }

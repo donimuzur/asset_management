@@ -10,6 +10,7 @@ class PasswordHash {
 
     // 2^12 iterations
     const COST = 12;
+    const salt = "p0L0w1J0g0S4rI1Nd035Ia";
 
     /**
      * Create password hash
@@ -19,7 +20,8 @@ class PasswordHash {
      */
     public function hash($password) {
         $options = [
-            'cost' => self::COST
+            'cost' => self::COST,
+            'salt'=> self::salt
         ];
         return password_hash($password, PASSWORD_BCRYPT, $options);
     }
