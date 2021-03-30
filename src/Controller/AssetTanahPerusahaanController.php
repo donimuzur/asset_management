@@ -9,6 +9,7 @@ use App\Form\AssetTanahPerusahaanType;
 use App\Repository\AssetTanahPerusahaanRepository;
 use App\Repository\MasterWilayahRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,9 +98,8 @@ class AssetTanahPerusahaanController extends AbstractController
                 $newFilename = uniqid().'.'.$uFile->guessExtension();
                 $content = file_get_contents($uFile);
                 $filType = $uFile->gettype();
-
-                $AttachmentAssetTanahPerusahaan->setAttachAttachment($content)
-                                              ->setAttachSize($uFile->getSize())
+               
+                $AttachmentAssetTanahPerusahaan->setAttachSize($uFile->getSize())
                                               ->setAttachedTime(new \DateTime('now'))
                                               ->setAttachFilename($newFilename)
                                               ->setAttachedBy($this->getUser())
@@ -108,13 +108,19 @@ class AssetTanahPerusahaanController extends AbstractController
 
             $AttachmentAssetTanahPerusahaan->setAssetTanahPerusahaan($AssetTanahPerusahaan)
                                             ->setAttachDesc($Description);
+
+
             if($isNew)
             {
                 $entityManager->persist($AttachmentAssetTanahPerusahaan);
             }
             
             $entityManager->flush();
-            
+            $uFile->move(
+                $this->getParameter('app.attachment_dir').'/AssetTanahPerusahaan',
+                $newFilename
+            );
+
             $this->addFlash(
                 'success',
                 'Attachment were uploaded!'
@@ -239,14 +245,13 @@ class AssetTanahPerusahaanController extends AbstractController
             ->find($id); 
         
         if (!empty($AttachmentFile)) {
+            $file = $this->getParameter('app.attachment_dir').'\/AssetTanahPerusahaan\/'.$AttachmentFile->getAttachFilename();
 
-            $fileContent = $AttachmentFile->getAttachAttachment(); 
-            
             $fileType = $AttachmentFile->getAttachType(); 
             $fileSize = $AttachmentFile->getAttachSize(); 
             $fileName = $AttachmentFile->getAttachFilename(); 
             
-            $response = new Response(stream_get_contents($fileContent));
+            $response = new BinaryFileResponse($file);
             $response->headers->set('Expires', '0');
             $response->headers->set("Cache-Control", "must-revalidate, post-check=0, pre-check=0, max-age=0");
             $response->headers->set("Cache-Control", "private", false);

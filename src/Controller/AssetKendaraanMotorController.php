@@ -7,6 +7,7 @@ use App\Entity\AttachmentAssetKendaraanMotor;
 use App\Form\AssetKendaraanMotorType;
 use App\Repository\AssetKendaraanMotorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -93,8 +94,7 @@ class AssetKendaraanMotorController extends AbstractController
                 $content = file_get_contents($uFile);
                 $filType = $uFile->gettype();
 
-                $AttachmentAssetKendaraanMotor->setAttachAttachment($content)
-                                              ->setAttachSize($uFile->getSize())
+                $AttachmentAssetKendaraanMotor->setAttachSize($uFile->getSize())
                                               ->setAttachedTime(new \DateTime('now'))
                                               ->setAttachFilename($newFilename)
                                               ->setAttachedBy($this->getUser())
@@ -109,7 +109,10 @@ class AssetKendaraanMotorController extends AbstractController
             }
             
             $entityManager->flush();
-            
+            $uFile->move(
+                $this->getParameter('app.attachment_dir').'/AssetKendaraanMotor',
+                $newFilename
+            );
             $this->addFlash(
                 'success',
                 'Attachment were uploaded!'
@@ -235,13 +238,13 @@ class AssetKendaraanMotorController extends AbstractController
         
         if (!empty($AttachmentFile)) {
 
-            $fileContent = $AttachmentFile->getAttachAttachment(); 
+            $file = $this->getParameter('app.attachment_dir').'\/AssetKendaraanMobil\/'.$AttachmentFile->getAttachFilename();
             
             $fileType = $AttachmentFile->getAttachType(); 
             $fileSize = $AttachmentFile->getAttachSize(); 
             $fileName = $AttachmentFile->getAttachFilename(); 
             
-            $response = new Response(stream_get_contents($fileContent));
+            $response = new BinaryFileResponse($file);
             $response->headers->set('Expires', '0');
             $response->headers->set("Cache-Control", "must-revalidate, post-check=0, pre-check=0, max-age=0");
             $response->headers->set("Cache-Control", "private", false);
