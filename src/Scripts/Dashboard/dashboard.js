@@ -20,15 +20,15 @@
                     data = { labels: [], datasets: [] };
 
                     jsonData.forEach(function (o) {
-                        if (!(o.GroupBy in nameIndices)) {
-                            nameIndices[o.GroupBy] = data.labels.push(o.GroupBy) - 1;
+                        if (!(o.Manufacturer in nameIndices)) {
+                            nameIndices[o.Manufacturer] = data.labels.push(o.Manufacturer) - 1;
                             data.datasets.forEach(function (a) { a.data.push(0); });
                         }
-                        if (!statusHash[o.Manufacturer]) {
-                            statusHash[o.Manufacturer] = { label: o.Manufacturer, backgroundColor: dynamicColors(), data: data.labels.map(function () { return 0; }) };
-                            data.datasets.push(statusHash[o.Manufacturer]);
+                        if (!statusHash[o.GroupBy]) {
+                            statusHash[o.GroupBy] = { label: o.GroupBy, backgroundColor: dynamicColors(), data: data.labels.map(function () { return 0; }) };
+                            data.datasets.push(statusHash[o.GroupBy]);
                         }
-                        statusHash[o.Manufacturer].data[nameIndices[o.GroupBy]] = o.Total;
+                        statusHash[o.GroupBy].data[nameIndices[o.Manufacturer]] = o.Total;
                     });
                 }
                 
@@ -71,17 +71,16 @@
                     data = { labels: [], datasets: [] };
 
                     jsonData.forEach(function (o) {
-                        if (!(o.GroupBy in nameIndices)) {
-                            nameIndices[o.GroupBy] = data.labels.push(o.GroupBy) - 1;
+                        if (!(o.Desa in nameIndices)) {
+                            nameIndices[o.Desa] = data.labels.push(o.Desa) - 1;
                             data.datasets.forEach(function (a) { a.data.push(0); });
                         }
-                        if (!statusHash[o.Desa]) {
-                            statusHash[o.Desa] = { label: o.Desa, backgroundColor: dynamicColors(), data: data.labels.map(function () { return 0; }) };
-                            data.datasets.push(statusHash[o.Desa]);
+                        if (!statusHash[o.GroupBy]) {
+                            statusHash[o.GroupBy] = { label: o.GroupBy, backgroundColor: dynamicColors(), data: data.labels.map(function () { return 0; }) };
+                            data.datasets.push(statusHash[o.GroupBy]);
                         }
-                        statusHash[o.Desa].data[nameIndices[o.GroupBy]] = o.Total;
+                        statusHash[o.GroupBy].data[nameIndices[o.Desa]] = o.Total;
                     });
-
                 }
                 
                 var ctx = document.getElementById('chartBar4').getContext('2d');
