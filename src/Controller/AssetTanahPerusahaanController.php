@@ -8,13 +8,14 @@ use App\Entity\StatusPembayaranTanahPerusahaan;
 use App\Form\AssetTanahPerusahaanType;
 use App\Repository\AssetTanahPerusahaanRepository;
 use App\Repository\MasterWilayahRepository;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -24,12 +25,29 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AssetTanahPerusahaanController extends AbstractController
 {
     /**
-     * @Route("/", name="asset_tanah_perusahaan_index", methods={"GET"})
+     * @Route("/", name="asset_tanah_perusahaan_index", methods={"GET","POST"})
      */
-    public function index(AssetTanahPerusahaanRepository $assetTanahPerusahaanRepository): Response
+    public function index(Request $request, AssetTanahPerusahaanRepository $assetTanahPerusahaanRepository): Response
     {
+        $submittedToken = $request->request->get('_token');
+        $search_desa = $request->request->get('search_desa');
+        $ListData = null;
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('AttachmentAssetTanahPerusahaan', $submittedToken)) {
+
+            $ListData = $assetTanahPerusahaanRepository->findFilterAll($search_desa);
+            if(is_null($search_desa) || empty($search_desa))
+            {
+                $ListData = $assetTanahPerusahaanRepository->findAllSorted();
+            }
+            
+            return $this->render('asset_tanah_perusahaan/index.html.twig', [
+                'asset_tanah_perusahaans' => $ListData
+            ]);
+            
+        }
+        
         return $this->render('asset_tanah_perusahaan/index.html.twig', [
-            'asset_tanah_perusahaans' => $assetTanahPerusahaanRepository->findAll(),
+            'asset_tanah_perusahaans' => $assetTanahPerusahaanRepository->findAllSorted(),
         ]);
     }
 
@@ -98,8 +116,8 @@ class AssetTanahPerusahaanController extends AbstractController
                 $newFilename = uniqid().'.'.$uFile->guessExtension();
                 $content = file_get_contents($uFile);
                 $filType = $uFile->gettype();
-               
-                $AttachmentAssetTanahPerusahaan->setAttachSize($uFile->getSize())
+
+                $AttachmentAssetTanahPerusahaan  ->setAttachSize($uFile->getSize())
                                               ->setAttachedTime(new \DateTime('now'))
                                               ->setAttachFilename($newFilename)
                                               ->setAttachedBy($this->getUser())
@@ -108,8 +126,6 @@ class AssetTanahPerusahaanController extends AbstractController
 
             $AttachmentAssetTanahPerusahaan->setAssetTanahPerusahaan($AssetTanahPerusahaan)
                                             ->setAttachDesc($Description);
-
-
             if($isNew)
             {
                 $entityManager->persist($AttachmentAssetTanahPerusahaan);
@@ -120,7 +136,6 @@ class AssetTanahPerusahaanController extends AbstractController
                 $this->getParameter('app.attachment_dir').'/AssetTanahPerusahaan',
                 $newFilename
             );
-
             $this->addFlash(
                 'success',
                 'Attachment were uploaded!'
@@ -129,7 +144,7 @@ class AssetTanahPerusahaanController extends AbstractController
        
         return $this->redirectToRoute('asset_tanah_perusahaan_edit',['id'=>$AssetTanahPerusahaanId]);
     }
-
+    
       /**
      * @Route("/DeleteAttachment", name="asset_tanah_perusahaan_attacment_delete", methods={"DELETE"})
      */
@@ -245,8 +260,9 @@ class AssetTanahPerusahaanController extends AbstractController
             ->find($id); 
         
         if (!empty($AttachmentFile)) {
-            $file = $this->getParameter('app.attachment_dir').'\/AssetTanahPerusahaan\/'.$AttachmentFile->getAttachFilename();
 
+            $file = $this->getParameter('app.attachment_dir').'\/AssetTanahPerusahaan\/'.$AttachmentFile->getAttachFilename();
+            
             $fileType = $AttachmentFile->getAttachType(); 
             $fileSize = $AttachmentFile->getAttachSize(); 
             $fileName = $AttachmentFile->getAttachFilename(); 
@@ -304,6 +320,64 @@ class AssetTanahPerusahaanController extends AbstractController
         $models = $masterWilayahRepository->getDesaList($kecId);
         $data = $serializer->serialize($models,  'json');
         return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
+    
+    /**
+     * @Route("/GetDataDesaFilter", name="asset_tanah_perusahaan_getDataDesaFilterList", methods={"GET","POST"})
+     */
+    public function GetDataDesaFilterList(SerializerInterface $serializer, AssetTanahPerusahaanRepository $assetTanahPerusahaanRepository): JsonResponse
+    {
+        $models = $assetTanahPerusahaanRepository->getDataDesaList();
+        $data = $serializer->serialize($models,  'json');
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
+    /**
+     * @Route("/ExportToXls/", name="asset_tanah_perusahaan_export", methods={"GET","POST"})
+     */
+    public function ExportToXls(Request $request, AssetTanahPerusahaanRepository $assetTanahPerusahaanRepository): Response
+    {
+
+        $submittedToken = $request->request->get('_token');
+        $search_desa = $request->request->get('search_desa_export');
+        $ListData = null;
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('export_token', $submittedToken)) {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            
+            $sheet->setCellValue("A1","Nama Desa : ".$search_desa);
+
+            $header = array("No","Nomor Hak","Luas(m2)","Nama Pemilik","Status & Keterangan");
+            $sheet->fromArray([$header], NULL, 'A3');
+            $count = 4;
+            $idx = 1;
+            
+            $list = $assetTanahPerusahaanRepository->findFilterAll($search_desa);
+            foreach($list as $list)
+            {
+                $sheet->setCellValue("A".$count,$idx);
+                $sheet->setCellValue("B".$count,$list->getNoShm());
+                $sheet->setCellValue("C".$count,$list->getLuasan());
+                $sheet->setCellValue("D".$count,$list->getNamaPemilik());
+                $sheet->setCellValue("E".$count,$list->getStatus() ." , ".$list->getKeterangan());
+                $sheet->getStyle('C'.$count)
+                        ->getNumberFormat()
+                        ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER);
+                $count++;
+                $idx++;
+            }
+
+            $writer = new Xlsx($spreadsheet);
+            $file = $this->getParameter('app.attachment_dir').'/data.xlsx';
+            $writer->save($file);
+
+            $response = new BinaryFileResponse($file);
+
+            return $response;
+        } 
+        
     }
 
     /**

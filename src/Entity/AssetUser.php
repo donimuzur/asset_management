@@ -82,10 +82,16 @@ class AssetUser implements UserInterface
      */
     private $attachmentAssetKendaraanMobils;
 
+    /**
+     * @ORM\OneToMany(targetEntity=BerkasPerusahaan::class, mappedBy="attached_by")
+     */
+    private $berkasPerusahaans;
+
     public function __construct()
     {
         $this->attachmentAssetKendaraanMotors = new ArrayCollection();
         $this->attachmentAssetKendaraanMobils = new ArrayCollection();
+        $this->berkasPerusahaans = new ArrayCollection();
     }
 	
     public function getId(): ?int
@@ -299,6 +305,36 @@ class AssetUser implements UserInterface
             // set the owning side to null (unless already changed)
             if ($attachmentAssetKendaraanMobil->getAttachedBy() === $this) {
                 $attachmentAssetKendaraanMobil->setAttachedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BerkasPerusahaan[]
+     */
+    public function getBerkasPerusahaans(): Collection
+    {
+        return $this->berkasPerusahaans;
+    }
+
+    public function addBerkasPerusahaan(BerkasPerusahaan $berkasPerusahaan): self
+    {
+        if (!$this->berkasPerusahaans->contains($berkasPerusahaan)) {
+            $this->berkasPerusahaans[] = $berkasPerusahaan;
+            $berkasPerusahaan->setAttachedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBerkasPerusahaan(BerkasPerusahaan $berkasPerusahaan): self
+    {
+        if ($this->berkasPerusahaans->removeElement($berkasPerusahaan)) {
+            // set the owning side to null (unless already changed)
+            if ($berkasPerusahaan->getAttachedBy() === $this) {
+                $berkasPerusahaan->setAttachedBy(null);
             }
         }
 

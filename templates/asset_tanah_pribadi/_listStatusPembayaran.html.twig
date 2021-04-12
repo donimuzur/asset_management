@@ -1,7 +1,5 @@
 <!-- Page Content -->
 <div class="content" >
-    <!-- Material Design -->
-    <h2 class="content-heading">StatusPembayaran</h2>
     <div class="row" id="addPaneStatusPembayarans" style="display:none">
         <div class="col-md-6">
             <div class="block">
@@ -45,26 +43,21 @@
 
     <div class="row">
         <div class="col-md-12">
+        <form method="post"  action='{{ path('asset_tanah_pribadi_attacment_delete') }}' id='frmEmpDelStatusPembayarans'>
             <!-- Static Labels -->
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Status Pembayaran List</h3>
+                    <div class="block-options">
+                        <a class="btn btn-primary mg-x-10" id='btnAddStatusPembayaran' href="#addPaneStatusPembayarans">Add</a>
+                        <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteStatusPembayaran'>Delete</button>
+                    </div>
                 </div>
                 <div class="block-content">
-                    <form method="post"  action='{{ path('asset_tanah_pribadi_attacment_delete') }}' id='frmEmpDelStatusPembayarans'>
+                    
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="AssetTanahPribadiId" value="{{ asset_tanah_pribadi.id }}"/>
                         <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                &nbsp;
-                            </div>
-                            <div id="statusPembayaranActions" class="col-lg-6" style="text-align: right;margin-bottom: 10px;">
-                                <a class="btn btn-primary mg-x-10" id='btnAddStatusPembayaran' href="#addPaneStatusPembayarans">Add</a>
-                                <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteStatusPembayaran'>Delete</button>
-                            </div>
-                        </div>
-                    
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered mg-b-0" id="tblStatusPembayarans">
                                 <thead>
@@ -99,9 +92,10 @@
                                 </tbody>
                             </table>
                         </div>
-                    </form>
+                    
                 </div>
             </div>
+        </form>
         </div>
     </div>
     <!-- END Material Design -->

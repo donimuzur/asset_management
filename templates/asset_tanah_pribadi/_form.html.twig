@@ -1,8 +1,11 @@
 <!-- Page Content -->
 <div class="content">
+    <nav class="breadcrumb bg-white push">
+        <a class="breadcrumb-item" href="{{ path('asset_kendaraan_mobil_index') }}">Asset Tanah Pribadi</a>
+        <span class="breadcrumb-item active">{{ labelBreadcrumb }}</span>
+    </nav>
     {{ include('_globalMessage.html.twig') }}
     <!-- Material Design -->
-    <h2 class="content-heading">{{ HeaderTitle }}</h2>
     <div class="row">
         <div class="col-md-12">
             <!-- Static Labels -->

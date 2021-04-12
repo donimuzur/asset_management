@@ -11,9 +11,9 @@
         <meta name="robots" content="noindex, nofollow">
 
         <!-- Icons -->
-        <link rel="shortcut icon" href="/assets/media/favicons/favicon.png">
-        <link rel="icon" type="image/png" sizes="192x192" href="/assets/media/favicons/favicon-192x192.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/assets/media/favicons/apple-touch-icon-180x180.png">
+        <link rel="shortcut icon" href="/assets/favicon/favicon.ico">
+        <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/favicon-32x32.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
         <!-- END Icons -->
 
         <!-- Stylesheets -->
@@ -130,6 +130,9 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li>
+                                <a class="{% if app.request.get('_route') starts with 'berkas_' %}active{% endif %}" href="{{ path('berkas_perusahaan_index') }}"><i class="si si-doc"></i><span class="sidebar-mini-hide">Attachment Perusahaan</span></a>
+                            </li>                            
                             {% if app.user.UserRoleId.Name == 'ROLE_ADMIN' %}
                             <li class="{% if app.request.get('_route') starts with 'master' %}open{% endif %}">
                                 <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-settings"></i><span class="sidebar-mini-hide">Master</span></a>
@@ -139,6 +142,9 @@
                                     </li>
                                     <li>
                                         <a class="{% if app.request.get('_route') in ['master_asset_user_role_index','master_asset_user_role_new','master_asset_user_role_show','master_asset_user_role_edit'] %}active{% endif %}" href="{{ path('master_asset_user_role_index')}}"><span class="sidebar-mini-hide">Master User Role</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="{% if app.request.get('_route') in ['master_perusahaan_index','master_perusahaan_new','master_perusahaan_show','master_perusahaan_edit'] %}active{% endif %}" href="{{ path('master_perusahaan_index')}}"><span class="sidebar-mini-hide">Master Perusahaan</span></a>
                                     </li>
                                 </ul>
                             </li>

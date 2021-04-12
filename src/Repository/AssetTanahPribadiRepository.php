@@ -18,6 +18,14 @@ class AssetTanahPribadiRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, AssetTanahPribadi::class);
     }
+    
+    public function findFilterAll($desa){
+        return $this->createQueryBuilder("a")
+              ->where('a.desa = :val')
+              ->setParameter('val', $desa)
+              ->getQuery()
+              ->getResult();
+    }
 
     public function getLuasanPerDesa()
     {
@@ -27,6 +35,24 @@ class AssetTanahPribadiRepository extends ServiceEntityRepository
               ->getQuery()
               ->getResult();
     }
+
+    public function getDataDesaList()
+    {
+        return $this->createQueryBuilder("a")
+              ->select("DISTINCT  a.desa as Desa")
+              ->getQuery()
+              ->getResult();
+    }
+
+
+    public function findAllSorted()
+    {
+        return $this->createQueryBuilder("a")
+              ->orderBy('a.desa')
+              ->getQuery()
+              ->getResult();
+    }
+
 
     // /**
     //  * @return AssetTanahPribadi[] Returns an array of AssetTanahPribadi objects

@@ -14,18 +14,58 @@
     {{ include('_globalMessage.html.twig') }}
     <!-- Material Design -->
     <h2 class="content-heading">{{ HeaderTitle }}</h2>
+    <form id="frmExport" action='{{ path('asset_tanah_perusahaan_export') }}' method="post"> 
+        <input type="hidden" id ="search_desa_export" name="search_desa_export">
+        <input type="hidden" name="_token" value="{{ csrf_token('export_token') }}">
+    </form>
+    <!-- Start Filter -->
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Filter Searching</h3>
+            <div class="block-options">
+                <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"><i class="si si-arrow-up"></i></button>
+            </div>
+        </div>
+        <div class="block-content">
+            <form id="frmSubmit"  method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token('AttachmentAssetTanahPerusahaan') }}"/>
+                <div class="row">
+                    <div class="col-4 form-group ">
+                        <div class="form-material">
+                            <select id="search_desa" name="search_desa" class="form-control" placeholder="Input your value ..."></select>
+                            <label for="search_desa">Desa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-success" id = "btnExport">
+                            <i class="fa fa-file mr-5"></i> Export to Excel (.xlsx)
+                        </button>
+                        <button type="submit" class="btn btn-alt-primary">
+                            <i class="fa fa-search mr-5"></i> Filter
+                        </button>
+                        <a class="btn btn-secondary" href="{{ path('asset_tanah_perusahaan_index') }}">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- END Filter -->
+
     <div class="block">
         <form method="post" action='{{ path('asset_tanah_perusahaan_delete') }}' id='frmEmpDelAttachments'>
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
             <div class="block-header block-header-default">
                 <h3 class="block-title">{{ FormTitle }}</h3>
-            </div>
-            <div class="block-content block-content-full">
-                <div class="col-lg-12" style="text-align: right;margin-bottom: 10px;">
+                <div class="block-options">
                     <a class="btn btn-primary mg-x-10" href="{{ path('asset_tanah_perusahaan_new') }}">Create new</a>
                     <button type="button" class="js-swal-confirm btn btn-danger">Delete</button>
+                    <button type="button" class="js-swal-confirm btn btn-danger">Export</button>
                 </div>
+            </div>
+            <div class="block-content block-content-full">
                 <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
                     <thead>
                         <tr  style="background: lightgray;">
@@ -56,12 +96,15 @@
                                 <td>{{ asset_tanah_perusahaan.noShm }}</td>
                                 <td>{{ asset_tanah_perusahaan.namaPemilik }}</td>
                                 {% set maxValue = 0 %}
-
+                                {% set maxStatus = '' %}
                                 {% for statusPembayaran in asset_tanah_perusahaan.getStatusPembayaran %} 
-                                    {% set maxValue = max(statusPembayaran.getTahunPembayaran, maxValue) %}
+                                    {% if maxValue < statusPembayaran.getTahunPembayaran %}    
+                                        {% set maxValue = statusPembayaran.getTahunPembayaran %}
+                                        {% set maxStatus = statusPembayaran.getStatus %}
+                                    {% endif %}
                                 {% endfor %} 
                                 {% if maxValue > 0 %} 
-                                    <td>{{ maxValue }}</td> 
+                                    <td>{{ maxValue }}{{'/'}}{{ maxStatus }}</td> 
                                 {% else %}    
                                     <td></td>
                                 {% endif %}
@@ -86,10 +129,28 @@
     {{ parent() }}
 
      <script>
+    $("#btnExport").click(function(){
+        $('#search_desa_export').val($('#search_desa').val());
+        $('#frmExport').submit();
+     })
 
+      $.ajax({
+        url: '/public/index.php/Asset/Tanah/Perusahaan/GetDataDesaFilter',
+        type:'POST',
+        dataType: 'json',
+        success: function(jsonData) {
+            $("#search_desa").attr('disabled', false);
+            var $select = $('#search_desa');
+            $select.find('option').remove();
+            $select.append('<option value="">' + '--- Please Select ---'  + '</option>'); // return empty    
+            jsonData.forEach(function (o) {
+                $select.append('<option value="' + o.Desa + '">' + o.Desa  + '</option>'); // return empty    
+            });
+         }
+    });
        $(".js-dataTable-full-pagination").dataTable({
             scrollX:true,
-            "searching": false,
+            {# "searching": false, #}
             ordering:false,
             columnDefs: [{ "width": "200px", "targets": [1,2,3,4] },
                          { "width": "100px", "targets": [5] }],

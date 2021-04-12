@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Master Perusahaan{% endblock %}
+{% set HeaderTitle = 'Master Perusahaan' %}
+{% set FormTitle =  'Edit Master Perusahaan'%}
+{% set description = 'Edit Master Perusahaan ' %}
+
+{% block body %}
+    {{ include('master_perusahaan/_form.html.twig', {'button_label': 'Update'}) }}
+{% endblock %}

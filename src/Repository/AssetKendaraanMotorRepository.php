@@ -28,6 +28,14 @@ class AssetKendaraanMotorRepository extends ServiceEntityRepository
               ->getResult();
     }
 
+    public function findAllSorted()
+    {
+        return $this->createQueryBuilder("a")
+              ->orderBy('a.Manfucaturer')
+              ->getQuery()
+              ->getResult();
+    }
+
     // /**
     //  * @return AssetKendaraanMotor[] Returns an array of AssetKendaraanMotor objects
     //  */

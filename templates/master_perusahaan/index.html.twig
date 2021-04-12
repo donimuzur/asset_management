@@ -1,0 +1,101 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Master Perusahaan{% endblock %}
+{% set HeaderTitle = 'Master Perusahaan' %}
+{% set FormTitle =  'Master Perusahaan List'%}
+{% set description = 'Add New Perusahaan ' %}
+
+{% block steylesheets %}
+{% endblock %}
+
+{% block body %}
+ <!-- Page Content -->
+<div class="content">
+    {{ include('_globalMessage.html.twig') }}
+    <!-- Material Design -->
+    <h2 class="content-heading">{{ HeaderTitle }}</h2>
+    <div class="block">
+        <form method="post" action='{{ path('master_perusahaan_delete') }}' id='frmEmpDelAttachments'>
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">{{ FormTitle }}</h3>
+                <div class="block-options">
+                    <a class="btn btn-primary mg-x-10" href="{{ path('master_perusahaan_new') }}">Create new</a>
+                    <button type="button" class="js-swal-confirm btn btn-danger">Delete</button>
+                </div>
+            </div>
+            <div class="block-content block-content-full">
+                <table class="table table-bordered table-striped table-vcenter js-dataTable-full-pagination">
+                    <thead>
+                        <tr  style="background: lightgray;">
+                            <th>
+                                <label class="ckbox mg-b-0">
+                                    <input type="checkbox" id='checkAll'><span></span>
+                                </label>
+                            </th>
+                            <th>Nama_perusahaan</th>
+                            <th>Status</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for master_perusahaan in master_perusahaans %}
+                        <tr>
+                            <td>
+                                <label class="ckbox mg-b-0">
+                                    <input type='checkbox' class='checkbox' name='chkMasterPerusahaan[]' value={{ master_perusahaan.Id}}/><span></span>
+                                </label>    
+                            </td>
+                            <td>{{ master_perusahaan.namaPerusahaan }}</td>
+                            <td>{{ master_perusahaan.status ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <div class="d-md-flex">
+                                        <a href="{{ path('master_perusahaan_edit', {'id': master_perusahaan.id}) }}" class="btn btn-outline-primary btn-block"><i class="fa fa-pencil-square-o mg-r-10"></i> Edit</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <!-- END Dynamic Table Full Pagination -->
+</div>
+<!-- End Page Content -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+     <script>
+
+       $(".js-dataTable-full-pagination").dataTable({
+            "searching": false,
+            pageLength: 8,
+            lengthMenu: [
+                [5, 8, 15, 20, 50],
+                [5, 8, 15, 20, 50],
+            ]
+        });
+
+        $("#checkAll").click(function(){
+            if($("#checkAll:checked").length > 0) {
+                $(".checkbox").prop('checked', true);
+            } else {
+                $(".checkbox").prop('checked', false);
+            }
+        });
+
+        $(".checkbox").click(function() {
+            $("#checkAll").prop('checked', false);
+            if(($(".checkbox").length) == $(".checkbox:checked").length) {
+                $("#checkAll").prop('checked', true);
+            }
+            
+        });
+    </script>
+{% endblock %}

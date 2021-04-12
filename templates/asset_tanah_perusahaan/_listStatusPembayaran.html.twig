@@ -45,62 +45,57 @@
 
     <div class="row">
         <div class="col-md-12">
-            <!-- Static Labels -->
+        <!-- Static Labels -->
             <div class="block">
+            <form method="post"  action='{{ path('asset_tanah_perusahaan_attacment_delete') }}' id='frmEmpDelStatusPembayarans'>
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Status Pembayaran List</h3>
+                    <div class="block-options">
+                        <a class="btn btn-primary mg-x-10" id='btnAddStatusPembayaran' href="#addPaneStatusPembayarans">Add</a>
+                        <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteStatusPembayaran'>Delete</button>
+                    </div>
                 </div>
                 <div class="block-content">
-                    <form method="post"  action='{{ path('asset_tanah_perusahaan_attacment_delete') }}' id='frmEmpDelStatusPembayarans'>
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="AssetTanahPerusahaanId" value="{{ asset_tanah_perusahaan.id }}"/>
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                &nbsp;
-                            </div>
-                            <div id="statusPembayaranActions" class="col-lg-6" style="text-align: right;margin-bottom: 10px;">
-                                <a class="btn btn-primary mg-x-10" id='btnAddStatusPembayaran' href="#addPaneStatusPembayarans">Add</a>
-                                <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteStatusPembayaran'>Delete</button>
-                            </div>
-                        </div>
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="AssetTanahPerusahaanId" value="{{ asset_tanah_perusahaan.id }}"/>
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
                     
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered mg-b-0" id="tblStatusPembayarans">
-                                <thead>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mg-b-0" id="tblStatusPembayarans">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="ckbox mg-b-0" class='checkboxStsPembayaran'>
+                                            <input type="checkbox" id='checkAllStatusPembayaran'><span></span>
+                                        </label>
+                                    </th>
+                                    <th>Tahun</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set status_pembayaran_aset_tanah_perusahaans =  asset_tanah_perusahaan.StatusPembayaran %}
+                                {% for status_pembayaran_aset_tanah_perusahaan in status_pembayaran_aset_tanah_perusahaans %}
                                     <tr>
-                                        <th>
+                                        <td>
                                             <label class="ckbox mg-b-0" class='checkboxStsPembayaran'>
-                                                <input type="checkbox" id='checkAllStatusPembayaran'><span></span>
-                                            </label>
-                                        </th>
-                                        <th>Tahun</th>
-                                        <th>Status</th>
+                                                <input type='checkbox' class='checkbox chkStatusPembayaran' name='chkStatusPembayaran[]' value={{ status_pembayaran_aset_tanah_perusahaan.Id}}/><span></span>
+                                            </label>    
+                                        </td>
+                                        <td>{{ status_pembayaran_aset_tanah_perusahaan.getTahunPembayaran}}</td>
+                                        <td>{{ status_pembayaran_aset_tanah_perusahaan.getStatus}}</td>
+                                        
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {% set status_pembayaran_aset_tanah_perusahaans =  asset_tanah_perusahaan.StatusPembayaran %}
-                                    {% for status_pembayaran_aset_tanah_perusahaan in status_pembayaran_aset_tanah_perusahaans %}
-                                        <tr>
-                                            <td>
-                                                <label class="ckbox mg-b-0" class='checkboxStsPembayaran'>
-                                                    <input type='checkbox' class='checkbox chkStatusPembayaran' name='chkStatusPembayaran[]' value={{ status_pembayaran_aset_tanah_perusahaans.Id}}/><span></span>
-                                                </label>    
-                                            </td>
-                                            <td>{{ status_pembayaran_aset_tanah_perusahaan.getTahunPembayaran}}</td>
-                                            <td>{{ status_pembayaran_aset_tanah_perusahaan.getStatus}}</td>
-                                          
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="5">no records found</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
-                </div>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>            
+                </div>    
+            </form>
             </div>
         </div>
     </div>

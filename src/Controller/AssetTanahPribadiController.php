@@ -8,6 +8,8 @@ use App\Entity\StatusPembayaranTanahPribadi;
 use App\Form\AssetTanahPribadiType;
 use App\Repository\AssetTanahPribadiRepository;
 use App\Repository\MasterWilayahRepository;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,12 +25,29 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AssetTanahPribadiController extends AbstractController
 {
     /**
-     * @Route("/", name="asset_tanah_pribadi_index", methods={"GET"})
+     * @Route("/", name="asset_tanah_pribadi_index", methods={"GET","POST"})
      */
-    public function index(AssetTanahPribadiRepository $assetTanahPribadiRepository): Response
+    public function index(Request $request, AssetTanahPribadiRepository $assetTanahPribadiRepository): Response
     {
+        $submittedToken = $request->request->get('_token');
+        $search_desa = $request->request->get('search_desa');
+        $ListData = null;
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('AttachmentAssetTanahPribadi', $submittedToken)) {
+
+            $ListData = $assetTanahPribadiRepository->findFilterAll($search_desa);
+            if(is_null($search_desa) || empty($search_desa))
+            {
+                $ListData = $assetTanahPribadiRepository->findAllSorted();
+            }
+            
+            return $this->render('asset_tanah_pribadi/index.html.twig', [
+                'asset_tanah_pribadis' => $ListData
+            ]);
+            
+        }
+        
         return $this->render('asset_tanah_pribadi/index.html.twig', [
-            'asset_tanah_pribadis' => $assetTanahPribadiRepository->findAll(),
+            'asset_tanah_pribadis' => $assetTanahPribadiRepository->findAllSorted(),
         ]);
     }
 
@@ -229,7 +248,7 @@ class AssetTanahPribadiController extends AbstractController
         return $this->redirectToRoute('asset_tanah_pribadi_index');
     }
 
-      /**
+    /**
      * @Route("/DownloadAttachment/{AssetTanahPribadiId}/{id}", name="asset_tanah_pribadi_download_attachment",methods={"GET","POST"})
      */
     public function downloadAttachment(Request $request, int $id, int $AssetTanahPribadiId): Response
@@ -242,7 +261,7 @@ class AssetTanahPribadiController extends AbstractController
         
         if (!empty($AttachmentFile)) {
 
-            $file = $this->getParameter('app.attachment_dir').'\/AssetKendaraanMobil\/'.$AttachmentFile->getAttachFilename();
+            $file = $this->getParameter('app.attachment_dir').'\/AssetTanahPribadi\/'.$AttachmentFile->getAttachFilename();
             
             $fileType = $AttachmentFile->getAttachType(); 
             $fileSize = $AttachmentFile->getAttachSize(); 
@@ -304,6 +323,63 @@ class AssetTanahPribadiController extends AbstractController
     }
 
     
+    /**
+     * @Route("/GetDataDesaFilter", name="asset_tanah_pribadi_getDataDesaFilterList", methods={"GET","POST"})
+     */
+    public function GetDataDesaFilterList(SerializerInterface $serializer, AssetTanahPribadiRepository $assetTanahPribadiRepository): JsonResponse
+    {
+        $models = $assetTanahPribadiRepository->getDataDesaList();
+        $data = $serializer->serialize($models,  'json');
+        return new JsonResponse($data, Response::HTTP_OK, [], true);
+    }
+
+    /**
+     * @Route("/ExportToXls/", name="asset_tanah_pribadi_export", methods={"GET","POST"})
+     */
+    public function ExportToXls(Request $request, AssetTanahPribadiRepository $assetTanahPribadiRepository): Response
+    {
+
+        $submittedToken = $request->request->get('_token');
+        $search_desa = $request->request->get('search_desa_export');
+        $ListData = null;
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('export_token', $submittedToken)) {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            
+            $sheet->setCellValue("A1","Nama Desa : ".$search_desa);
+
+            $header = array("No","Nomor Hak","Luas(m2)","Nama Pemilik","Status & Keterangan");
+            $sheet->fromArray([$header], NULL, 'A3');
+            $count = 4;
+            $idx = 1;
+            
+            $list = $assetTanahPribadiRepository->findFilterAll($search_desa);
+            foreach($list as $list)
+            {
+                $sheet->setCellValue("A".$count,$idx);
+                $sheet->setCellValue("B".$count,$list->getNoShm());
+                $sheet->setCellValue("C".$count,$list->getLuasan());
+                $sheet->setCellValue("D".$count,$list->getNamaPemilik());
+                $sheet->setCellValue("E".$count,$list->getStatus() ." , ".$list->getKeterangan());
+                $sheet->getStyle('C'.$count)
+                        ->getNumberFormat()
+                        ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_NUMBER);
+                $count++;
+                $idx++;
+            }
+
+            $writer = new Xlsx($spreadsheet);
+            $file = $this->getParameter('app.attachment_dir').'/data.xlsx';
+            $writer->save($file);
+
+            $response = new BinaryFileResponse($file);
+
+            return $response;
+        } 
+        
+    }
+
     /**
      * @Route("/UpdateStatusPembayaran", name="asset_tanah_pribadi_update_status_pembayaran", methods={"POST"})
      */

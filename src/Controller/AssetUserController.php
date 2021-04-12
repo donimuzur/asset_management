@@ -28,7 +28,7 @@ class AssetUserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="master_asset_user_new", methods={"GET","POST"})
+     * @Route("/New", name="master_asset_user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {

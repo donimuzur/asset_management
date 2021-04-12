@@ -1,7 +1,6 @@
 <!-- Page Content -->
 <div class="content" >
     <!-- Material Design -->
-    <h2 class="content-heading">Attachment</h2>
     <div class="row" id="addPaneAttachments" style="display:none">
         <div class="col-md-6">
             <div class="block">
@@ -46,65 +45,61 @@
     <div class="row">
         <div class="col-md-12">
             <!-- Static Labels -->
+            <form method="post"  action='{{ path('asset_tanah_perusahaan_attacment_delete') }}' id='frmEmpDelAttachments'>
             <div class="block">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Attacment List</h3>
+                    <div class="block-options">
+                        <a class="btn btn-primary mg-x-10" id='btnAddAttachment' href="#addPaneAttachments">Add</a>
+                        <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteAttachment'>Delete</button>
+                    </div>
                 </div>
                 <div class="block-content">
-                    <form method="post"  action='{{ path('asset_tanah_perusahaan_attacment_delete') }}' id='frmEmpDelAttachments'>
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="AssetTanahPerusahaanId" value="{{ asset_tanah_perusahaan.id }}"/>
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                &nbsp;
-                            </div>
-                            <div id="attachmentActions"  class="col-lg-6" style="text-align: right;margin-bottom: 10px;">
-                                <a class="btn btn-primary mg-x-10" id='btnAddAttachment' href="#addPaneAttachments">Add</a>
-                                <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteAttachment'>Delete</button>
-                            </div>
-                        </div>
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="AssetTanahPerusahaanId" value="{{ asset_tanah_perusahaan.id }}"/>
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
                     
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered mg-b-0" id="tblAttachments">
-                                <thead>
+                
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mg-b-0" id="tblAttachments">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="ckbox mg-b-0" class='checkboxAtch'>
+                                            <input type="checkbox" id='checkAll'><span></span>
+                                        </label>
+                                    </th>
+                                    <th>File Name</th>
+                                    <th>Description</th>
+                                    <th>Attach By</th>
+                                    <th>Attach Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set attachment_asset_tanah_perusahaans =  asset_tanah_perusahaan.Attachment %}
+                                {% for attachment_asset_tanah_perusahaan in attachment_asset_tanah_perusahaans %}
                                     <tr>
-                                        <th>
+                                        <td>
                                             <label class="ckbox mg-b-0" class='checkboxAtch'>
-                                                <input type="checkbox" id='checkAll'><span></span>
-                                            </label>
-                                        </th>
-                                        <th>File Name</th>
-                                        <th>Description</th>
-                                        <th>Attach By</th>
-                                        <th>Attach Date</th>
+                                                <input type='checkbox' class='checkbox chkAssetTanah' name='chkAssetTanah[]' value={{ attachment_asset_tanah_perusahaan.Id}}/><span></span>
+                                            </label>    
+                                        </td>
+                                        <td><a href="{{ path('asset_tanah_perusahaan_download_attachment', {'id': attachment_asset_tanah_perusahaan.Id,'AssetTanahPerusahaanId':asset_tanah_perusahaan.id }) }}">{{ attachment_asset_tanah_perusahaan.getAttachFilename|default('')}}</a></td>
+                                        <td>{{ attachment_asset_tanah_perusahaan.getAttachDesc}}</td>
+                                        <td>{{ attachment_asset_tanah_perusahaan.getAttachedBy.getFullName|default('') }}</td>
+                                        <td>{{ attachment_asset_tanah_perusahaan.attach_time|default( "now"|date("m/d/Y"))}}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {% set attachment_asset_tanah_perusahaans =  asset_tanah_perusahaan.Attachment %}
-                                    {% for attachment_asset_tanah_perusahaan in attachment_asset_tanah_perusahaans %}
-                                        <tr>
-                                            <td>
-                                                <label class="ckbox mg-b-0" class='checkboxAtch'>
-                                                    <input type='checkbox' class='checkbox chkAssetTanah' name='chkAssetTanah[]' value={{ attachment_asset_tanah_perusahaan.Id}}/><span></span>
-                                                </label>    
-                                            </td>
-                                            <td><a href="{{ path('asset_tanah_perusahaan_download_attachment', {'id': attachment_asset_tanah_perusahaan.Id,'AssetTanahPerusahaanId':asset_tanah_perusahaan.id }) }}">{{ attachment_asset_tanah_perusahaan.getAttachFilename|default('')}}</a></td>
-                                            <td>{{ attachment_asset_tanah_perusahaan.getAttachDesc}}</td>
-                                            <td>{{ attachment_asset_tanah_perusahaan.getAttachedBy.getFullName|default('') }}</td>
-                                            <td>{{ attachment_asset_tanah_perusahaan.attach_time|default( "now"|date("m/d/Y"))}}</td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="5">no records found</td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </div>    
+        </form>
         </div>
     </div>
     <!-- END Material Design -->

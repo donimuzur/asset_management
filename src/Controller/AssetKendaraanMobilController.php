@@ -24,7 +24,7 @@ class AssetKendaraanMobilController extends AbstractController
     public function index(AssetKendaraanMobilRepository $assetKendaraanMobilRepository): Response
     {
         return $this->render('asset_kendaraan_mobil/index.html.twig', [
-            'asset_kendaraan_mobils' => $assetKendaraanMobilRepository->findAll(),
+            'asset_kendaraan_mobils' => $assetKendaraanMobilRepository->findAllSorted(),
         ]);
     }
 

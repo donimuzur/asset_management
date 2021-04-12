@@ -24,7 +24,7 @@ class AssetKendaraanMotorController extends AbstractController
     public function index(AssetKendaraanMotorRepository $assetKendaraanMotorRepository): Response
     {
         return $this->render('asset_kendaraan_motor/index.html.twig', [
-            'asset_kendaraan_motors' => $assetKendaraanMotorRepository->findAll(),
+            'asset_kendaraan_motors' => $assetKendaraanMotorRepository->findAllSorted(),
         ]);
     }
 
