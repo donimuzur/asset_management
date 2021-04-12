@@ -108,14 +108,14 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="">
+                            <li class="{% if app.request.get('_route') starts with 'asset_bangunan_' %}open{% endif %}">
                                 <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-home"></i><span class="sidebar-mini-hide">Asset Bangunan</span></a>
                                 <ul>
                                     <li>
-                                        <a class="" href=""><span class="sidebar-mini-hide">Perusahaan</span></a>
+                                        <a class="{% if app.request.get('_route') starts with 'asset_bangunan_perusahaan_' %}active{% endif %}" href="{{ path('asset_bangunan_perusahaan_index')}}"><span class="sidebar-mini-hide">Perusahaan</span></a>
                                     </li>
                                     <li>
-                                        <a class="" href=""><span class="sidebar-mini-hide">Pribadi</span></a>
+                                        <a class="{% if app.request.get('_route') starts with 'asset_bangunan_pribadi_' %}active{% endif %}" href="{{ path('asset_bangunan_pribadi_index')}}"><span class="sidebar-mini-hide">Pribadi</span></a>
                                     </li>
                                 </ul>
                             </li>

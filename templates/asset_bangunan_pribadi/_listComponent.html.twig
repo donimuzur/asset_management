@@ -1,0 +1,105 @@
+<!-- Page Content -->
+<div class="content" >
+    <div class="row" id="addPaneAttachments" style="display:none">
+        <div class="col-md-6">
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Add New Attachment</h3>
+                </div>
+                <div class="block-content">
+                    <form method="post" action={{ path('asset_bangunan_pribadi_update_attachment')}}  enctype="multipart/form-data" >
+                        <input type="hidden" name="_token" value="{{ csrf_token('AttachmentAssetBangunanPribadi') }}"/>
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <div class="form-material">
+                                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Please add a Description"></textarea>
+                                    <label>Description:</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-12">
+                                <label>Upload File:</label>
+                                <div>
+                                    <div class="custom-file">
+                                        <input type="hidden" name="AttachmentId"/>
+                                        <input type="hidden" name="AssetBangunanPribadiId" value="{{ asset_bangunan_pribadi.id }}"/>
+                                        <input type="file" name='ufile' id="ufile" class="custom-file-input" data-toggle="custom-file-input">
+                                        <label class="custom-file-label" for="example-file-input-custom">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-9">
+                                <button type="submit" class="btn btn-alt-primary mr-5">Add</button>
+                                <button type="button" id='btnCancelAttachment' class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END Static Labels -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+        <form method="post"  action='{{ path('asset_bangunan_pribadi_attacment_delete') }}' id='frmEmpDelAttachments'>
+            <!-- Static Labels -->
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Attacment List</h3>
+                    <div class="block-options">
+                        <a class="btn btn-primary mg-x-10" id='btnAddAttachment' href="#addPaneAttachments">Add</a>
+                        <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteAttachment'>Delete</button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="AssetBangunanPribadiId" value="{{ asset_bangunan_pribadi.id }}"/>
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mg-b-0" id="tblAttachments">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="ckbox mg-b-0" class='checkboxAtch'>
+                                            <input type="checkbox" id='checkAll'><span></span>
+                                        </label>
+                                    </th>
+                                    <th>File Name</th>
+                                    <th>Description</th>
+                                    <th>Attach By</th>
+                                    <th>Attach Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set attachment_asset_bangunan_pribadis =  asset_bangunan_pribadi.Attachment %}
+                                {% for attachment_asset_bangunan_pribadi in attachment_asset_bangunan_pribadis %}
+                                    <tr>
+                                        <td>
+                                            <label class="ckbox mg-b-0" class='checkboxAtch'>
+                                                <input type='checkbox' class='checkbox chkAssetBangunan' name='chkAssetBangunan[]' value={{ attachment_asset_bangunan_pribadi.Id}}/><span></span>
+                                            </label>    
+                                        </td>
+                                        <td><a href="{{ path('asset_bangunan_pribadi_download_attachment', {'id': attachment_asset_bangunan_pribadi.Id,'AssetBangunanPribadiId':asset_bangunan_pribadi.id }) }}">{{ attachment_asset_bangunan_pribadi.getAttachFilename|default('')}}</a></td>
+                                        <td>{{ attachment_asset_bangunan_pribadi.getAttachDesc}}</td>
+                                        <td>{{ attachment_asset_bangunan_pribadi.getAttachedBy.getFullName|default('') }}</td>
+                                        <td>{{ attachment_asset_bangunan_pribadi.attach_time|default( "now"|date("m/d/Y"))}}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>    
+        </div>
+    </div>
+    <!-- END Material Design -->
+</div>
+<!-- END Page Content -->

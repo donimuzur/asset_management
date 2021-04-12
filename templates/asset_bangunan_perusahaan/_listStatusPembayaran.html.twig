@@ -1,0 +1,104 @@
+<!-- Page Content -->
+<div class="content" >
+    <!-- Material Design -->
+    <h2 class="content-heading">StatusPembayaran</h2>
+    <div class="row" id="addPaneStatusPembayarans" style="display:none">
+        <div class="col-md-6">
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Add New StatusPembayaran</h3>
+                </div>
+                <div class="block-content">
+                    <form method="post" action={{ path('asset_bangunan_perusahaan_update_status_pembayaran')}} >
+                        <input type="hidden" name="_token" value="{{ csrf_token('StatusPembayaranAssetBangunanPerusahaan') }}"/>
+                        <input type="hidden" name="StatusPembayaranId"/>
+                        <input type="hidden" name="AssetBangunanPerusahaanId" value="{{ asset_bangunan_perusahaan.id }}"/>
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <div class="form-material">
+                                    <input type="text" class="form-control" id="tahun" name="tahun" placeholder="Please add a value"></input>
+                                    <label>Tahun:</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-12">
+                                <div class="form-material">
+                                    <select id="status" name="status" class="form-control valid" placeholder="Please add value..." aria-invalid="false">
+                                        <option value="Belum Bayar" selected="selected">Belum Bayar</option>
+                                        <option value="Sudah Bayar">Sudah Bayar</option>
+                                    </select>
+                                    <label>Description:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-9">
+                                <button type="submit" class="btn btn-alt-primary mr-5">Add</button>
+                                <button type="button" id='btnCancelStatusPembayaran' class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END Static Labels -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+        <!-- Static Labels -->
+            <div class="block">
+            <form method="post"  action='{{ path('asset_bangunan_perusahaan_attacment_delete') }}' id='frmEmpDelStatusPembayarans'>
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Status Pembayaran List</h3>
+                    <div class="block-options">
+                        <a class="btn btn-primary mg-x-10" id='btnAddStatusPembayaran' href="#addPaneStatusPembayarans">Add</a>
+                        <button type="button" class="js-swal-confirm btn btn-danger" id='btnDeleteStatusPembayaran'>Delete</button>
+                    </div>
+                </div>
+                <div class="block-content">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="AssetBangunanPerusahaanId" value="{{ asset_bangunan_perusahaan.id }}"/>
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered mg-b-0" id="tblStatusPembayarans">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <label class="ckbox mg-b-0" class='checkboxStsPembayaran'>
+                                            <input type="checkbox" id='checkAllStatusPembayaran'><span></span>
+                                        </label>
+                                    </th>
+                                    <th>Tahun</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% set status_pembayaran_aset_bangunan_perusahaans =  asset_bangunan_perusahaan.StatusPembayaran %}
+                                {% for status_pembayaran_aset_bangunan_perusahaan in status_pembayaran_aset_bangunan_perusahaans %}
+                                    <tr>
+                                        <td>
+                                            <label class="ckbox mg-b-0" class='checkboxStsPembayaran'>
+                                                <input type='checkbox' class='checkbox chkStatusPembayaran' name='chkStatusPembayaran[]' value={{ status_pembayaran_aset_bangunan_perusahaan.Id}}/><span></span>
+                                            </label>    
+                                        </td>
+                                        <td>{{ status_pembayaran_aset_bangunan_perusahaan.getTahunPembayaran}}</td>
+                                        <td>{{ status_pembayaran_aset_bangunan_perusahaan.getStatus}}</td>
+                                        
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>            
+                </div>    
+            </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Material Design -->
+</div>
+<!-- END Page Content -->

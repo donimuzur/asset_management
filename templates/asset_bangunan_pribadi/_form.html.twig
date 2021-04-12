@@ -1,0 +1,101 @@
+<!-- Page Content -->
+<div class="content">
+    <nav class="breadcrumb bg-white push">
+        <a class="breadcrumb-item" href="{{ path('asset_kendaraan_mobil_index') }}">Asset Bangunan Pribadi</a>
+        <span class="breadcrumb-item active">{{ labelBreadcrumb }}</span>
+    </nav>
+    {{ include('_globalMessage.html.twig') }}
+    <!-- Material Design -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Static Labels -->
+            <div class="block">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">{{ FormTitle }}</h3>
+                </div>
+                <div class="block-content">
+                    <form id="frmSubmit"  method="post">
+                        <div class="row">
+                            <div class="col-6 form-group">
+                                <div class="form-material">
+                                    {{ form_widget(form.no_shm, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                    <label>No SHM:<span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-6 form-group">
+                                <div class="form-material input-group input-group-lg">
+                                    {{ form_widget(form.luasan, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                    <label>Luasan:</label>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">M<sup>2</sup></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 form-group">
+                                <div class="form-material">
+                                     {{ form_widget(form.nama_pemilik, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                    <label>Atas Nama:</label>
+                                </div>
+                            </div>
+                            <div class="col-6 form-group">
+                                <div class="form-material">
+                                     {{ form_widget(form.Status, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                    <label>Status:<span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5>Lokasi :</h5>
+                            </div>
+                            <div class="col-6 form-group">
+                                <div class="form-material">
+                                    {{ form_widget(form.provinsi, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                    <label>Provinsi:<span class="text-danger">*</span></label>
+                                    <input id="data-holder-provinsi" type="hidden" />
+                                </div>   
+                            </div>
+                            <div class="col-6 form-group">
+                                <div class="form-material">
+                                    {{ form_widget(form.kabupaten_kota, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                    <label>Kabupaten/Kota:<span class="text-danger">*</span></label>
+                                    <input id="data-holder-kabupaten_kota" type="hidden" />
+                                </div>      
+                            </div>
+                            <div class="col-6 form-group">
+                                <div class="form-material">
+                                    <label>Kecamatan:<span class="text-danger">*</span></label>
+                                    {{ form_widget(form.kecamatan, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                    <input id="data-holder-kecamatan" type="hidden"/>
+                                </div>
+                            </div>
+                            <div class="col-6 form-group">
+                                <div class="form-material">
+                                    <label>Desa:<span class="text-danger">*</span></label>
+                                    {{ form_widget(form.desa, {'attr': {'class': 'form-control','placeholder':"please add value..."}})}}
+                                </div>  
+                            </div>
+                            <div class="col-12 form-group">
+                                <div class="form-material">
+                                     {{ form_widget(form.keterangan, {'attr': {'class': 'form-control','rows':"4",'placeholder':"please add value..." }})}}
+                                    <label for="material-textarea-large">Keterangan:</label>
+                                </div>
+                            </div>
+                        </div>
+                         {{ form_rest(form) }}
+                        <div class="form-group row">
+                            <div class="col-md-9">
+                                <button type="submit" class="btn btn-alt-primary mr-5">{{ button_label|default('Submit') }}</button>
+                                <a href="{{ path('asset_bangunan_pribadi_index') }}" class="btn btn-alt-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- END Static Labels -->
+        </div>
+    </div>
+    <!-- END Material Design -->
+</div>
+<!-- END Page Content -->
+
+
+

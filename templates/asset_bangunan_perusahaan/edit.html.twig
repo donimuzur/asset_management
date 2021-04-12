@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Asset Bangunan Perusahaan{% endblock %}
+{% set HeaderTitle = 'Asset Bangunan Perusahaan' %}
+{% set FormTitle =  'Edit Asset Bangunan Perusahaan'%}
+{% set description = 'Edit Asset Bangunan Perusahaan ' %}
+{% set labelBreadcrumb = 'Edit' %}
+
+{% block body %}
+  {{ include('asset_bangunan_perusahaan/_form.html.twig', {'button_label': 'Update'}) }}
+  {{ include('asset_bangunan_perusahaan/_listComponent.html.twig') }}
+  {{ include('asset_bangunan_perusahaan/_listStatusPembayaran.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/src/Scripts/asset_bangunan_perusahaan/_form.js"></script>
+    <script>
+        InitProvinsi();
+        InitMadya();
+        InitKecamatan();
+        InitDesa();
+    </script>
+    <script>
+        $("#frmSubmit").validate({
+            ignore: [],
+            errorClass: "invalid-feedback animated fadeInDown",
+            errorElement: "div",
+            errorPlacement: function (e, r) {
+                jQuery(r).parents(".form-group").append(e);
+            },
+            highlight: function (e) {
+                jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid");
+                HideHeaderLoader();
+            },
+            success: function (e) {
+                jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove();
+            },
+            rules: {
+                "asset_bangunan_perusahaan[no_shm]": { required: true},
+                "asset_bangunan_perusahaan[luasan]": { digits:true},
+                "asset_bangunan_perusahaan[status_pembayaran]": { required: true},
+                "asset_bangunan_perusahaan[provinsi]": { required: true},
+                "asset_bangunan_perusahaan[kabupaten_kota]": { required: true},
+                "asset_bangunan_perusahaan[kecamatan]": { required: true},
+                "asset_bangunan_perusahaan[desa]": { required: true},
+            },
+            messages: {
+                "asset_bangunan_perusahaan[no_shm]": { required: "Field ini mandatory"},
+                "asset_bangunan_perusahaan[luasan]": { digits: "Harus diisi angka"},
+                "asset_bangunan_perusahaan[status_pembayaran]": { required: "Field ini mandatory"},
+                "asset_bangunan_perusahaan[provinsi]": { required: "Field ini mandatory"},
+                "asset_bangunan_perusahaan[kabupaten_kota]": { required: "Field ini mandatory"},
+                "asset_bangunan_perusahaan[kecamatan]": { required: "Field ini mandatory"},
+                "asset_bangunan_perusahaan[desa]": { required: "Field ini mandatory"},
+            },
+        });
+
+        //----- ATTACHMENT -----
+        $('#btnAddAttachment').click(function() {
+          
+            $('#ufile').removeAttr("disabled");
+            $('#attachmentActions').hide();
+            $('#addPaneAttachments').show();
+            
+            $("table#tblAttachments label.checkboxAtch").hide();
+            $("table#tblAttachments row.editLink").hide();
+
+            
+            window.location.hash = '#addPaneAttachments';
+        });
+
+        $('#btnCancelAttachment').click(function() {
+            $('#attachmentActions').show();
+            $('#addPaneAttachments').hide();
+            $('#ufile').val('');
+            $("table#tblAttachments label.checkboxAtch").show();
+            $("table#tblAttachments row.editLink").show();            
+        });
+        
+
+        $("#checkAll").click(function(){
+            if($("#checkAll:checked").length > 0) {
+                $(".checkbox.chkAssetBangunan").prop('checked', true);
+            } else {
+                $(".checkbox.chkAssetBangunan").prop('checked', false);
+            }
+        });
+
+        $(".checkbox.chkAssetBangunan").click(function() {
+            $("#checkAll").prop('checked', false);
+            if(($(".checkbox.chkAssetBangunan").length) == $(".checkbox.chkAssetBangunan:checked").length) {
+                $("#checkAll").prop('checked', true);
+            }
+            
+        });
+
+        //----- STATUS PEMBAYARAN -----
+        $('#btnAddStatusPembayaran').click(function() {
+            $('#statusPembayaranActions').hide();
+            $('#addPaneStatusPembayarans').show();
+            
+            $("table#tblStatusPembayarans label.checkboxStsPembayaran").hide();
+            $("table#tblStatusPembayarans row.editLink").hide();
+
+            
+            window.location.hash = '#addPaneStatusPembayarans';
+        });
+
+         $('#btnCancelStatusPembayaran').click(function() {
+            $('#statusPembayaranActions').show();
+            $('#addPaneStatusPembayarans').hide();
+            $('#tahun').val('');
+            $("#status").val('');
+            $("table#tblStatusPembayarans label.checkboxStsPembayaran").show();
+            $("table#tblStatusPembayarans row.editLink").show();            
+        });
+        
+
+        $("#checkAllStatusPembayaran").click(function(){
+            if($("#checkAllStatusPembayaran:checked").length > 0) {
+                $(".checkbox.chkStatusPembayaran").prop('checked', true);
+            } else {
+                $(".checkbox.chkStatusPembayaran").prop('checked', false);
+            }
+        });
+
+        $(".checkbox.chkStatusPembayaran").click(function() {
+            $("#checkAllStatusPembayaran").prop('checked', false);
+            if(($(".checkbox.chkStatusPembayaran").length) == $(".checkbox.chkStatusPembayaran:checked").length) {
+                $("#checkAllStatusPembayaran").prop('checked', true);
+            }
+        });
+    </script>
+{% endblock %}
