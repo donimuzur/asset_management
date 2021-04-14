@@ -48,12 +48,12 @@ class BerkasPerusahaanController extends AbstractController
                     $berkasPerusahaanToSave->setDeskripsi($berkasPerusahaan->getDeskripsi());
                     $berkasPerusahaanToSave->setPerusahaan($berkasPerusahaan->getPerusahaan());
                     $originalFilename = pathinfo($uFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $newFilename = $uFile->getClientOriginalName().'-'.uniqid().'.'.$uFile->guessExtension();
+                    $newFilename = $uFile->getClientOriginalName();
                     $filType = $uFile->gettype();
 
                     $berkasPerusahaanToSave   ->setAttachSize($uFile->getSize())
                                         ->setAttachedTime(new \DateTime('now'))
-                                        ->setAttachFilename($originalFilename)
+                                        ->setAttachFilename($newFilename)
                                         ->setAttachedBy($this->getUser())
                                         ->setAttachType($filType);
                                         
@@ -61,7 +61,7 @@ class BerkasPerusahaanController extends AbstractController
                     $entityManager->flush();
                     $uFile->move(
                         $this->getParameter('app.attachment_dir').'/AttachmentPerusahaan',
-                        $originalFilename
+                        $newFilename
                     );
                 }
                 $this->addFlash(
@@ -144,7 +144,6 @@ class BerkasPerusahaanController extends AbstractController
                         $filesystem = new Filesystem();
                         $filesystem->remove($filename);
                     }
-                    
             }
 
             $entityManager->flush();
