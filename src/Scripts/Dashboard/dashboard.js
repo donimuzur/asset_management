@@ -38,18 +38,22 @@
                     type: 'bar',
                     data: data,
                     options:{
-                        scales:{
-                            xAxes: [{
-                                //stacked: true,
+                        responsive: true,
+                        interaction: {
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
                                 stacked: true,
-                              }],
-                            yAxes: [{
+                            },
+                            y: {
+                                stacked: true,
                                 display: true,
                                 ticks: {
                                     stepSize: 1,
                                     beginAtZero:true, // maximum value
                                 }
-                            }]
+                            }
                         }
                     }
                 });
@@ -88,20 +92,19 @@
                     type: 'bar',
                     data: data,
                     options:{
-                        scales:{
-                            xAxes: [{
-                                //stacked: true,
+                        responsive: true,
+                        interaction: {
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
                                 stacked: true,
-                              }],
-                            yAxes: [{
-                                display: true,
-                                ticks: {
-                                    beginAtZero:true, // maximum value
-                                }
-                            }]
+                            },
+                            y: {
+                                stacked: true
+                            }
                         }
                     }
-                    
                 });
                 $('#chart2').toggleClass("block-mode-loading");
             }

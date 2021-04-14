@@ -41,7 +41,6 @@ class BerkasPerusahaanController extends AbstractController
             $uFile = $form['attach_filename']->getData();
             if($uFile)
             {
-                
                 foreach( $uFile as $uFile )
                 {
                     $berkasPerusahaanToSave = new BerkasPerusahaan();
@@ -64,10 +63,12 @@ class BerkasPerusahaanController extends AbstractController
                         $newFilename
                     );
                 }
+                
                 $this->addFlash(
                     'success',
                     'Attachment were uploaded!'
                 );
+                
                 return $this->redirectToRoute('berkas_perusahaan_index');
             }
         }
