@@ -4,7 +4,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h3 class="alert-heading font-size-h4 font-w400">{{ label }}</h3>
+            <h3 class="alert-heading font-size-h4 font-w400">{% if label starts with 'danger' %}Error{% else %} {{ label }} {% endif %}</h3>
             <p class="mb-0">{{ message }}</p>
         </div>
     {% endfor %}

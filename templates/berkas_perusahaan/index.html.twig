@@ -34,6 +34,7 @@
                                     <input type="checkbox" id='checkAll'><span></span>
                                 </label>
                             </th>
+                            <th>Nama File</th>
                             <th>Deskripsi</th>
                             <th>Perusahaan</th>
                         </tr>
@@ -46,7 +47,8 @@
                                         <input type='checkbox' class='checkbox' name='chkBerkasPerusahaan[]' value={{ berkas_perusahaan.id}}/><span></span>
                                     </label>    
                                 </td>
-                                <td><a href="{{ path('berkas_perusahaan_download_attachment', {'id':berkas_perusahaan.id }) }}">{{ berkas_perusahaan.deskripsi }}</a></td>
+                                <td><a href="{{ path('berkas_perusahaan_download_attachment', {'id':berkas_perusahaan.id }) }}">{{ berkas_perusahaan.getAttachFilename }}</a></td>
+                                <td>{{ berkas_perusahaan.deskripsi}}</td>
                                 <td>{{ berkas_perusahaan.perusahaan.NamaPerusahaan}}</td>
                             </tr>
                         {% endfor %}

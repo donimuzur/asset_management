@@ -21,7 +21,13 @@ class BerkasPerusahaanType extends AbstractType
                 'choice_label'=>'nama_perusahaan',
                 'choice_value' => 'id'
             ])
-            ->add('attach_filename',FileType::class)
+            ->add('attach_filename',FileType::class,[
+                'multiple'=>true,
+                'mapped' => false,
+                'attr'     => [
+                    'multiple' => 'multiple'
+                ]
+            ])
         ;
     }
 

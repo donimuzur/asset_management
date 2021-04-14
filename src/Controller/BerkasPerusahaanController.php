@@ -41,30 +41,44 @@ class BerkasPerusahaanController extends AbstractController
             $uFile = $form['attach_filename']->getData();
             if($uFile)
             {
-                $originalFilename = pathinfo($uFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = uniqid().'.'.$uFile->guessExtension();
-                $filType = $uFile->gettype();
-
-                $berkasPerusahaan   ->setAttachSize($uFile->getSize())
-                                    ->setAttachedTime(new \DateTime('now'))
-                                    ->setAttachFilename($newFilename)
-                                    ->setAttachedBy($this->getUser())
-                                    ->setAttachType($filType);
-                                    
-                $entityManager->persist($berkasPerusahaan);
-                $entityManager->flush();
-                $uFile->move(
-                    $this->getParameter('app.attachment_dir').'/AttachmentPerusahaan',
-                    $newFilename
-                );
                 
-            
+                foreach( $uFile as $uFile )
+                {
+                    $berkasPerusahaanToSave = new BerkasPerusahaan();
+                    $berkasPerusahaanToSave->setDeskripsi($berkasPerusahaan->getDeskripsi());
+                    $berkasPerusahaanToSave->setPerusahaan($berkasPerusahaan->getPerusahaan());
+                    $originalFilename = pathinfo($uFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = $uFile->getClientOriginalName().'-'.uniqid().'.'.$uFile->guessExtension();
+                    $filType = $uFile->gettype();
+
+                    $berkasPerusahaanToSave   ->setAttachSize($uFile->getSize())
+                                        ->setAttachedTime(new \DateTime('now'))
+                                        ->setAttachFilename($originalFilename)
+                                        ->setAttachedBy($this->getUser())
+                                        ->setAttachType($filType);
+                                        
+                    $entityManager->persist($berkasPerusahaanToSave);
+                    $entityManager->flush();
+                    $uFile->move(
+                        $this->getParameter('app.attachment_dir').'/AttachmentPerusahaan',
+                        $originalFilename
+                    );
+                }
                 $this->addFlash(
                     'success',
                     'Attachment were uploaded!'
                 );
                 return $this->redirectToRoute('berkas_perusahaan_index');
             }
+        }
+        
+        $error = $form->getErrors();
+        if(!is_null($error) && $error != '')
+        {
+            $this->addFlash(
+                'danger',
+                $error
+            );
         }
 
         return $this->render('berkas_perusahaan/new.html.twig', [
@@ -88,6 +102,15 @@ class BerkasPerusahaanController extends AbstractController
                 'Attachment were uploaded!'
             );
             return $this->redirectToRoute('berkas_perusahaan_index');
+        }
+
+        $error = $form->getErrors();
+        if(!is_null($error) && $error != '')
+        {
+            $this->addFlash(
+                'error',
+                $error
+            );
         }
 
         return $this->render('berkas_perusahaan/edit.html.twig', [
